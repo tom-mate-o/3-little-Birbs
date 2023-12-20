@@ -1,12 +1,125 @@
+:root.sunriseSunset-theme{
+  --background: #355070;
+  --textOnBright: #355070;
+  --mainContainer: #6D597A;
+  --button: #B56576;
+  --navbar: #B56576;
+  --hoverButton: #E56B6F;
+  --highlightedContainer: #E88C7D;
+  --goodThingContainer: #EAAC8B;
+  --textOnDark: #EAAC8B;
+  --infoContainer: #EEBBA0;
+  --textInContainer: #EEBBA0;
+  --navBarIcons: #EEBBA0;
+  --textOnButton: #FFFFFF;
+  --fontFamily: 'Inria Serif', serif;
+}
+
+:root.dracula-theme {
+  --background: #282a36;
+  --textOnBright: #f8f8f2;
+  --mainContainer: #44475A;
+  --button: #6272a4;
+  --navbar: #6272a4;
+  --hoverButton: #bd93f9;
+  --highlightedContainer: #ff79c6;
+  --goodThingContainer: #ffb86c;
+  --textOnDark: #50fa7b;
+  --infoContainer: #8be9fd;
+  --textInContainer: #f1fa8c;
+  --navBarIcons: #f1fa8c;
+  --textOnButton: #FFFFFF;
+  --fontFamily: 'Inria Serif', serif;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background);
+  color: var(--textOnDark);
+  font-family: 'Inria Serif', serif;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+}
+
 .App {
+  display: flex;
+  justify-content: center;
+
+  height: auto;
+  
+
+
+  
+}
+
+
+.navbar {
+  right: 0;
+  background-color: var(--navbar);
+  color: var(--navBarIcons);
+ position: fixed;
+ bottom: 0;
+ width: 100%;
+font-size: 20px;
+
+
+  a:visited{
+    color: var(--navBarIcons);
+  }
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar li {
+  float: left;
+}
+
+.navbar li a {
+  display: block;
+  color: white;
   text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
-.App-logo {
-  height: 20vmin;
-  pointer-events: none;
+.navbar li a:hover {
+  background-color: var(--hoverButton);
 }
 
+.contentContainer{
+
+  width: 100%;
+  max-width: 500px;
+
+  padding-top: 35px;
+  padding-left: 15px;
+  padding-bottom: 80px;
+  
+}
+
+.buttonContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;;
+  padding-top: 15px;
+  gap: 15px;
+  width: 100%;
+}
 
 
 .App-header {
@@ -31,4 +144,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.select{
+  font-family: 'Inria Serif', serif;
+  width: 95%;
 }
