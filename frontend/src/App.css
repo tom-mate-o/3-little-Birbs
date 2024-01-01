@@ -13,6 +13,7 @@
   --navBarIcons: #EEBBA0;
   --textOnButton: #FFFFFF;
   --fontFamily: 'Inria Serif', serif;
+  --red: #de0000;
 }
 
 :root.dracula-theme {
@@ -48,6 +49,8 @@ body{
   overflow-y: scroll;
 
 }
+
+
 
 .App {
   display: flex;
@@ -150,3 +153,4 @@ font-size: 20px;
   font-family: 'Inria Serif', serif;
   width: 95%;
 }
+

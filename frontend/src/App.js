@@ -15,6 +15,7 @@ import AddAFriend from "./pages/addAFriend";
 import Notifications from "./pages/notifications";
 import Settings from "./pages/settings";
 import Navbar from "./components/navbar";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
+          <ToastContainer />
         </div>
 
 {/* -------NAVBAR------- */}

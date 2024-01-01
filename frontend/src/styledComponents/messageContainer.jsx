@@ -14,6 +14,30 @@ export const MessageContainer = styled.div`
     align-items: center;
     text-align: center;
 
+    .friendCodeFlex{
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        h1{
+            width: 100%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .clipboardIcon{
+            width: 20px;
+            height: 20px;
+            position: absolute;
+
+            right: 0;
+            z-index: 999;
+        }
+
+    }
+   
+
     .birbsInARow{
         display: flex;
         flex-direction: row;

@@ -21,6 +21,7 @@ import bigBirb20 from "./big/20_Purple_Martin_big.png";
 import writebutton from "./writebutton.png";
 import newpostbutton from "./newpostbutton.png";
 import pigeon from "./big/pigeon.png";
+import testavatar from "./testavatar.png";
 
 export const birbImages = {
     bigBirb01,
@@ -45,5 +46,6 @@ export const birbImages = {
     bigBirb20,
     writebutton,
     newpostbutton,
-    pigeon
+    pigeon,
+    testavatar
 };
