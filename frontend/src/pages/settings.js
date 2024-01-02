@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 //Styled Components
@@ -15,6 +16,11 @@ import { birbImages } from "../assets/birbs/birbsimgs";
 import {Select, MenuItem} from "@mui/material";
 
 export default function Settings() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  
     const [value, setValue] = React.useState(0);
 
   return (

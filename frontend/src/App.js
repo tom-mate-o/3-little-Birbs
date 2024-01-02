@@ -14,6 +14,9 @@ import CalendarArchive from "./pages/calendarArchive";
 import AddAFriend from "./pages/addAFriend";
 import Notifications from "./pages/notifications";
 import Settings from "./pages/settings";
+import Login from "./pages/login";
+import Register from "./pages/register";
+
 import Navbar from "./components/navbar";
 import { ToastContainer } from "react-toastify";
 
@@ -27,6 +30,7 @@ function App() {
       <BrowserRouter>
         <div className="contentContainer">
           <Routes>
+          <Route path="/" element={<Feed />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/newpost" element={<NewPost />} />
             <Route path="/postsuccessful" element={<PostSuccessful />} />
@@ -40,6 +44,8 @@ function App() {
             <Route path="/addafriend" element={<AddAFriend />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
           <ToastContainer />
         </div>

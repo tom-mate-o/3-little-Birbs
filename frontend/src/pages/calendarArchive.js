@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from "react";
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -9,6 +10,10 @@ import { Title } from "../styledComponents/title";
 import { MainContainer } from "../styledComponents/mainContainer";
 
 export default function CalendarArchive() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
     const [value, setValue] = React.useState(dayjs('2022-04-17'));
 
   return (

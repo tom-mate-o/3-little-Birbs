@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { NavLink } from "react-router-dom";
 
 //Styled Components
@@ -11,6 +11,10 @@ import { HiOutlineXCircle } from "react-icons/hi";
 
 
 export default function Notifications() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div>
       <Title>Notifications</Title>

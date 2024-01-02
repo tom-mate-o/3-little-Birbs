@@ -1,5 +1,10 @@
 import React from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+
+
+//Costum Hooks
+import useMongoDBData from "../costumHooks/useMongoDBData";
 
 //Styled Components
 import { Title } from "../styledComponents/title";
@@ -15,6 +20,20 @@ import { HiOutlineLightBulb } from "react-icons/hi";
 import { birbImages } from "../assets/birbs/birbsimgs";
 
 export default function Feed() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
+  const {poolPosts, setPoolPosts} = useMongoDBData();
+
+  if (!poolPosts || poolPosts.length === 0) {
+    return <MainContainer>
+      <div><img className="birdImg" src={birbImages.pecking_animation} alt="birb1"></img>...Loading...</div> ;
+    </MainContainer> // Show a loading message while fetching data
+  }
+
+  const randomPost = poolPosts[Math.floor(Math.random() * poolPosts.length)];
+
   return (
     <div>
       <Title>Feed</Title>
@@ -28,30 +47,30 @@ export default function Feed() {
         </div>
       </InfoContainer>
       <MainContainer>
-        <Boxtitle>3 little Birbs from: NAME</Boxtitle>
+        <Boxtitle>3 little Birbs from: {randomPost.poster}</Boxtitle>
         <GoodThingContainerBirdLeft>
           <div>
-            <img className="birdImg" src={birbImages.bigBirb17} alt="hi"></img>
+            <img className="birdImg" src={birbImages[randomPost.birb1]} alt="birb1"></img>
           </div>
-          <div>Nice cup of coffee in the sun</div>
+          <div>{randomPost.goodthing1}</div>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdRight>
-          <div>Had a lovely walk with my best friend</div>
+          <div>{randomPost.goodthing2}</div>
           <div>
-            <img className="birdImg" src={birbImages.bigBirb18} alt="hi"></img>
+            <img className="birdImg" src={birbImages[randomPost.birb2]} alt="birb2"></img>
           </div>
         </GoodThingContainerBirdRight>
         <GoodThingContainerBirdLeft>
           <div>
-            <img className="birdImg" src={birbImages.bigBirb19} alt="hi"></img>
+            <img className="birdImg" src={birbImages[randomPost.birb3]} alt="birb3"></img>
           </div>
-          <div>Got a piece of cake at work today</div>
+          <div>{randomPost.goodthing3}</div>
         </GoodThingContainerBirdLeft>
 
-        <Boxtitle>a message from NAME</Boxtitle>
+        <Boxtitle>a message from {randomPost.poster}</Boxtitle>
 
         <HighlightedContainer>
-          <p>If life gives you lemons, make some kind of fruity juice.</p>
+          <p>{randomPost.message}</p>
         </HighlightedContainer>
       </MainContainer>
       <InfoContainer>
@@ -59,7 +78,7 @@ export default function Feed() {
           <HiOutlineLightBulb />
         </div>
         <div>
-          What was good about today? Name 3 things, and send them to strangers,
+          What was good about today? <br/>Name 3 things, and send them to strangers,
           or to a friend.
         </div>
       </InfoContainer>

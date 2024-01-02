@@ -22,6 +22,8 @@ import writebutton from "./writebutton.png";
 import newpostbutton from "./newpostbutton.png";
 import pigeon from "./big/pigeon.png";
 import testavatar from "./testavatar.png";
+import logo from "./logo.png";
+import pecking_animation from "./pecking_animation.gif";
 
 export const birbImages = {
     bigBirb01,
@@ -47,5 +49,8 @@ export const birbImages = {
     writebutton,
     newpostbutton,
     pigeon,
-    testavatar
+    testavatar,
+    logo,
+    pecking_animation,
+    
 };

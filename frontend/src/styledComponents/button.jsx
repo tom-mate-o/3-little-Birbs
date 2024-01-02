@@ -12,6 +12,7 @@ export const Button = styled.div`
     justify-content: center;
     width: auto;
     color: var(--textOnButton);
+    text-align: center;
 
     &:hover {
         background-color: var(--hoverButton);

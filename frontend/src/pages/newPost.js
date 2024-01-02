@@ -1,11 +1,14 @@
 import React from "react";
+
 import { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { addPostToDatabaseConfig } from "../utils/addPostToDatabaseConfig";
 import uuid4 from "uuid4";
 import {DateTime} from "luxon";
+import { useNavigate } from "react-router-dom";
 
 //Styled Components
+import { useEffect } from "react";
 import { Title } from "../styledComponents/title";
 import { MainContainer } from "../styledComponents/mainContainer";
 import { GoodThingContainerBirdLeft } from "../styledComponents/goodThingContainerBirdLeft";
@@ -19,11 +22,15 @@ import { HiOutlineLightBulb } from "react-icons/hi";
 import { birbImages } from "../assets/birbs/birbsimgs";
 
 export default function NewPost() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const goodthing1 = useRef(null);
   const goodthing2 = useRef(null);
   const goodthing3 = useRef(null);
   const message = useRef(null);
+  const navigate = useNavigate();
 
  
 
@@ -31,6 +38,10 @@ export default function NewPost() {
     let birbNumber = Math.floor(Math.random() * 20) + 1;
     return birbNumber.toString().padStart(2, '0');
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [birbImageName1, setBirbImageName1] = useState(`bigBirb${getRandomBirbNumber()}`);
   const [birbImageBirb1, setBirbImageBirb1] = useState(birbImages[birbImageName1]);
@@ -88,33 +99,19 @@ export default function NewPost() {
 
 
 
-  function handleClick(e) {
+  async function handleClickPost(e) {
     e.preventDefault();
-    const postBirb1 = birbImageName1;
-    const postGoodThing1 = goodthing1.current.value;
-    const postBirb2 = birbImageName2;
-    const postGoodThing2 = goodthing2.current.value;
-    const postBirb3 = birbImageName3;
-    const postGoodThing3 = goodthing3.current.value;
-    const postMessage = message.current.value;
+
     const id = uuid4();
     const currentDate = DateTime.now().toISO();
-
-    console.log(postBirb1);
-    console.log(postGoodThing1);
-    console.log(postBirb2);
-    console.log(postGoodThing2);
-    console.log(postBirb3);
-    console.log(postGoodThing3);
-    console.log(postMessage);
 
     const newPost = {
       id: id,
       date: currentDate,
       public: true,
       private: false,
-      poster: "me",
-      reciever: "you",
+      poster: "Tom",
+      reciever: "Public",
       birb1: birbImageName1,
       goodthing1: goodthing1.current.value,
       birb2: birbImageName2,
@@ -124,8 +121,33 @@ export default function NewPost() {
       message: message.current.value,
     };
   
-   addPostToDatabaseConfig(newPost);
 
+   await addPostToDatabaseConfig(newPost);
+
+   navigate("/postsuccessful", { 
+    state: { 
+      birbImageBirb1: birbImageBirb1, 
+      birbImageBirb2: birbImageBirb2, 
+      birbImageBirb3: birbImageBirb3 
+    }
+    });
+  };
+
+  async function handleClickPostFriend(e) {
+    e.preventDefault();
+
+   navigate("/posttoafriend", { 
+    state: { 
+      birbImageBirb1: birbImageBirb1,
+      goodthing1: goodthing1.current.value, 
+      birbImageBirb2: birbImageBirb2, 
+      goodthing2: goodthing2.current.value,
+      birbImageBirb3: birbImageBirb3, 
+      goodthing3: goodthing3.current.value,
+      message: message.current.value,
+    }
+
+    });
   };
 
 
@@ -133,59 +155,86 @@ export default function NewPost() {
 
   return (
     <div>
-      <Title>Send 3 little Birbs<br/>into the wild</Title>
+      <Title>
+        Send 3 little Birbs
+        <br />
+        into the wild
+      </Title>
       <InfoContainer>
         <div className="bulbIcon">
           <HiOutlineLightBulb />
         </div>
         <div>
-        write 3 good things that happend to you today,<br/> add a kind messageand send the birds into the wild.
+          write 3 good things that happend to you today,
+          <br /> add a kind messageand send the birds into the wild.
         </div>
       </InfoContainer>
       <MainContainer>
-      
         <Boxtitle>Type your text into the white boxes</Boxtitle>
         <GoodThingContainerBirdLeft>
           <div>
-          <img className="birdImg" src={birbImageBirb1} alt={birbAltTexts[birbImageName1]} onClick={handleBirbImage1Click}></img>
+            <img
+              className="birdImg"
+              src={birbImageBirb1}
+              alt={birbAltTexts[birbImageName1]}
+              onClick={handleBirbImage1Click}
+            ></img>
           </div>
-          <InputGoodThing><textarea ref={goodthing1}></textarea></InputGoodThing>
-        </GoodThingContainerBirdLeft>
-        <GoodThingContainerBirdLeft>
-        <div>
-        <img className="birdImg" src={birbImageBirb2} alt={birbAltTexts[birbImageName2]} onClick={handleBirbImage2Click}></img>          </div>
-          <InputGoodThing><textarea ref={goodthing2}></textarea></InputGoodThing>
+          <InputGoodThing>
+            <textarea ref={goodthing1}></textarea>
+          </InputGoodThing>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdLeft>
           <div>
-          <img className="birdImg" src={birbImageBirb3} alt={birbAltTexts[birbImageName3]} onClick={handleBirbImage3Click}></img>          </div>
-         
-          <InputGoodThing><textarea ref={goodthing3}></textarea></InputGoodThing>
+            <img
+              className="birdImg"
+              src={birbImageBirb2}
+              alt={birbAltTexts[birbImageName2]}
+              onClick={handleBirbImage2Click}
+            ></img>{" "}
+          </div>
+          <InputGoodThing>
+            <textarea ref={goodthing2}></textarea>
+          </InputGoodThing>
+        </GoodThingContainerBirdLeft>
+        <GoodThingContainerBirdLeft>
+          <div>
+            <img
+              className="birdImg"
+              src={birbImageBirb3}
+              alt={birbAltTexts[birbImageName3]}
+              onClick={handleBirbImage3Click}
+            ></img>{" "}
+          </div>
+
+          <InputGoodThing>
+            <textarea ref={goodthing3}></textarea>
+          </InputGoodThing>
         </GoodThingContainerBirdLeft>
 
         <Boxtitle>write a kind message for this person</Boxtitle>
 
         <HighlightedContainer>
-        <InputGoodThing><textarea ref={message}></textarea></InputGoodThing>
+          <InputGoodThing>
+            <textarea ref={message}></textarea>
+          </InputGoodThing>
         </HighlightedContainer>
       </MainContainer>
 
-
       <div className="buttonContainer">
-        <SmallButtons onClick={handleClick}>
-          <NavLink to="/postsuccessful">
-            <img className="writeImg" src={birbImages.newpostbutton} alt="hi"></img>
-            <p>send them out into the wild</p>
-            </NavLink>
-            </SmallButtons>
+        <SmallButtons onClick={handleClickPost}>
+          <img
+            className="writeImg"
+            src={birbImages.newpostbutton}
+            alt="hi"
+          ></img>
+          <p>send them out into the wild</p>
+        </SmallButtons>
 
-            <SmallButtons>
-          <NavLink to="/posttoafriend">
+        <SmallButtons onClick={handleClickPostFriend}>
             <img className="writeImg" src={birbImages.pigeon} alt="hi"></img>
             <p>choose a friend and guide them with a post pigeon</p>
-            </NavLink>
-            </SmallButtons>
-            
+        </SmallButtons>
       </div>
     </div>
   );

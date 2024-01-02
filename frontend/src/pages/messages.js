@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 //Styled Components
@@ -9,6 +10,10 @@ import { MessageContainer } from "../styledComponents/messageContainer";
 import { birbImages } from "../assets/birbs/birbsimgs";
 
 export default function Messages() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   return (
     <div>
       <Title>

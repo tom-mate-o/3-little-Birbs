@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 //Styled Components
@@ -10,6 +11,11 @@ import { Boxtitle } from "../styledComponents/boxtitle";
 import { birbImages } from "../assets/birbs/birbsimgs";
 
 export default function PostToAFriendSuccessful() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  
   return (
     <div>
       <Title>Off they go,<br/>to your friend!</Title>

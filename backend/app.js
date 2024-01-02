@@ -30,19 +30,14 @@ mongoose.connect(connectionString, {
 const Post = require("./models/postSchema");
 
 // Routes ----------------------------------------------
-// Post Route for Post
+// POST Route for Post
 
-app.post("/api/post", async (req, res) => {
-    try {
-        const post = req.body;
-        console.log(post);
-        const awaitPost = await Post.create(post);
-        res.status(201).send({message: "Post added successfully to DB!"});
-    } catch (error) {
-        console.error("Error adding post to DB", error);
-        res.status(500).send({message: "Error adding post to DB"});
-    }
-});
+const postRoute = require('./routes/postRoute'); // Pfad zur Post-Route
+app.use('/api/post', postRoute);
+
+// GET Route for Posts aus Pool
+const getPoolRoute = require('./routes/getPoolRoute'); // Pfad zur Get-Route
+app.use('/api/getPool', getPoolRoute);
 
 
 

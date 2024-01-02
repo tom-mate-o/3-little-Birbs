@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 //Styled Components
@@ -17,6 +18,11 @@ import { HiOutlineUserAdd } from "react-icons/hi";
 import { HiOutlineClipboard } from "react-icons/hi";
 
 export default function AddAFriend() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  
   return (
     <div>
       <Title>Add a Friend</Title>
