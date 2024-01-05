@@ -35,17 +35,12 @@ export default function Register() {
     const id = uuid4();
 
     let file;
-    if (form.avatar.files[0]) {
+    if (form.avatar.files.length > 0) {
       file = form.avatar.files[0];
-    } else {
-      const response = await fetch("/assets/default.png");
-      console.log(response);
-      const data = await response.blob();
-      file = new File([data], "default.png", { type: "image/png" });
+      formData.append("avatar", file);
     }
 
     formData.append("id", id);
-    formData.append("avatar", file);
     formData.append("email1", form.email1.value);
     formData.append("email2", form.email2.value);
     formData.append("username", form.username.value);
@@ -98,6 +93,8 @@ export default function Register() {
               type="email"
               placeholder="E-Mail*"
               required
+              minLength="6"
+              maxLength="50"
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
               title="Please enter a valid email address"
             ></input>
@@ -111,6 +108,8 @@ export default function Register() {
               type="email"
               placeholder="Repeat Email*"
               required
+              minLength="6"
+              maxLength="50"
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
               title="Please enter a valid email address"
             ></input>
@@ -118,17 +117,44 @@ export default function Register() {
 
           <Boxtitle>Username</Boxtitle>
           <InputField>
-            <input name="username" ref={usernameRef}></input>
+            <input
+              name="username"
+              ref={usernameRef}
+              placeholder="Username"
+              required
+              minlength="3"
+              maxlength="20"
+            ></input>
           </InputField>
 
           <Boxtitle>Password</Boxtitle>
           <InputField>
-            <input name="password1" ref={password1Ref} type="password"></input>
+            <input
+              name="password1"
+              ref={password1Ref}
+              type="password"
+              placeholder="Password*"
+              required
+              minlength="6"
+              maxLength="60"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+              title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"
+            ></input>
           </InputField>
 
           <Boxtitle>Repeat Password</Boxtitle>
           <InputField>
-            <input name="password2" ref={password2Ref} type="password"></input>
+            <input
+              name="password2"
+              ref={password2Ref}
+              type="password"
+              placeholder="Repeat Password*"
+              required
+              minlength="6"
+              maxLength="60"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+              title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"
+            ></input>
           </InputField>
 
           <SubmitButton>

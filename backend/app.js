@@ -95,9 +95,10 @@ app.post("/api/register", avatar.single("avatar"), async (req, res) => {
       return res.status(422).send({ message: "Email already taken!" });
     }
 
-    const avatarUrl = `${req.protocol}://${req.get("host")}/uploads/${
-      req.file.filename
-    }`;
+    let avatarUrl = null;
+    if (req.file) {
+      avatarUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    }
     console.log(avatarUrl);
 
     const hashedPassword = await bcrypt.hash(password1, 10);

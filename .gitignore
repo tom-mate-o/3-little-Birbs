@@ -2,6 +2,8 @@
 
 3lb_assets
 
+/uploads
+
 # dependencies
 /node_modules
 node_modules/
