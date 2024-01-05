@@ -6,6 +6,7 @@ const port = process.env.PORT;
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // Middleware
 app.use(express.json());
@@ -48,6 +49,12 @@ app.use("/api/post", postRoute);
 // GET Route for Posts aus Pool
 const getPoolRoute = require("./routes/getPoolRoute"); // Pfad zur Get-Route
 app.use("/api/getPool", getPoolRoute);
+
+// POST Route for Login
+const userController = require("./controller/userController");
+app.post("/api/login", userController.login);
+
+    
 
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`);

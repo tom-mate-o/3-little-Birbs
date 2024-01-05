@@ -1,7 +1,6 @@
-import logo from "./pecking_animation.gif";
 import "./App.css";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import Feed from "./pages/feed";
@@ -21,6 +20,20 @@ import Navbar from "./components/navbar";
 import { ToastContainer } from "react-toastify";
 
 function App() {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setLoggedIn(true);
+    }
+  },[]);
+
   return (
     <div className="App">
 
@@ -30,21 +43,18 @@ function App() {
       <BrowserRouter>
         <div className="contentContainer">
           <Routes>
-          <Route path="/" element={<Feed />} />
-            <Route path="/feed" element={<Feed />} />
-            <Route path="/newpost" element={<NewPost />} />
-            <Route path="/postsuccessful" element={<PostSuccessful />} />
-            <Route path="/posttoafriend" element={<PostToAFriend />} />
-            <Route
-              path="/posttoafriendsuccessful"
-              element={<PostToAFriendSuccessful />}
-            />
-            <Route path="/messages" element={<Messages />} />
-            <Route path="/calendararchive" element={<CalendarArchive />} />
-            <Route path="/addafriend" element={<AddAFriend />} />
-            <Route path="/notifications" element={<Notifications />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/login" element={<Login />} />
+          <Route path="/" element={loggedIn ? <Feed /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/feed" element={loggedIn ? <Feed /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/newpost" element={loggedIn ? <NewPost /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/postsuccessful" element={loggedIn ? <PostSuccessful /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/posttoafriend" element={loggedIn ? <PostToAFriend /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/posttoafriendsuccessful" element={loggedIn ? <PostToAFriendSuccessful /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/messages" element={loggedIn ? <Messages /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/calendararchive" element={loggedIn ? <CalendarArchive /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/addafriend" element={loggedIn ? <AddAFriend /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/notifications" element={loggedIn ? <Notifications /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/settings" element={loggedIn ? <Settings /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/login" element={<Login loggedIn={loggedIn} handleLogin={handleLogin}/>}  />
             <Route path="/register" element={<Register />} />
           </Routes>
           <ToastContainer />

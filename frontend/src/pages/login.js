@@ -2,29 +2,55 @@ import React from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { compareLoginToDatabase } from "../utils/compareLoginToDatabase";
+import { useNavigate } from "react-router-dom";
+
 
 //Styled Components
 import { MainContainer } from "../styledComponents/mainContainer";
 import { birbImages } from "../assets/birbs/birbsimgs";
 import { Boxtitle } from "../styledComponents/boxtitle";
 import { InputField } from "../styledComponents/inputField";
-import { WideButton } from "../styledComponents/wideButton";
 import { SubmitButton } from "../styledComponents/submitButton";
+import showNotifications from "../components/showNotifications/showNotifications";
 
-export default function Login() {
+export default function Login({handleLogin, loggedIn}) { //muss in {} sein, da sonst nicht erkannt wird, dass loggedIn true ist
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const username = useRef();
   const password = useRef();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log("loggedIn: " + loggedIn);
+    if (loggedIn) {
+      navigate("/feed");
+    }
+  }, [loggedIn, navigate]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("handleSubmit Funktion aufgerufen");
-console.log(username.current.value);
-console.log(password.current.value);
+
+
+    const data = {
+      username: username.current.value,
+      password: password.current.value,
+    };
+
+    try{
+      const res = await compareLoginToDatabase(data);
+      if (res){
+        localStorage.setItem("token", res.token);
+        handleLogin(); // setLoggedIn(true) in App.js, damit die Weiterleitung auf /feed funktioniert
+        //getUserNamefromDB + setUsername Localstorage
+      }
+
+    } catch (error){
+      showNotifications("Login failed!", "error");
+    }
+    
 
   };
   
