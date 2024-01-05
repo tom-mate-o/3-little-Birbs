@@ -18,10 +18,17 @@ import Register from "./pages/register";
 
 import Navbar from "./components/navbar";
 import { ToastContainer } from "react-toastify";
+import showNotifications from "./components/showNotifications/showNotifications";
 
 function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+    localStorage.removeItem("token");
+    showNotifications("Bye, for now! 👋", "");
+  };
 
   const handleLogin = () => {
     setLoggedIn(true);
@@ -53,7 +60,7 @@ function App() {
             <Route path="/calendararchive" element={loggedIn ? <CalendarArchive /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
             <Route path="/addafriend" element={loggedIn ? <AddAFriend /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
             <Route path="/notifications" element={loggedIn ? <Notifications /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
-            <Route path="/settings" element={loggedIn ? <Settings /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/settings" element={loggedIn ? <Settings handleLogout={handleLogout}/> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
             <Route path="/login" element={<Login loggedIn={loggedIn} handleLogin={handleLogin}/>}  />
             <Route path="/register" element={<Register />} />
           </Routes>

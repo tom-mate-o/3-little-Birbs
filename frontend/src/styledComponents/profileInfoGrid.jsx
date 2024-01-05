@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 export const ProfileInfoGrid = styled.div`
 
     border-radius: 15px;
-    margin-top: 10px;
+    margin-top: 30px;
     width: 100%;
     color: var(--textOnDark);
     font-family: 'Inria Serif', serif;

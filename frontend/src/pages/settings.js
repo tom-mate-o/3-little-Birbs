@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { TbDoorExit } from "react-icons/tb";
 
 //Styled Components
 import { Title } from "../styledComponents/title";
@@ -15,17 +16,22 @@ import { birbImages } from "../assets/birbs/birbsimgs";
 
 import {Select, MenuItem} from "@mui/material";
 
-export default function Settings() {
+export default function Settings({handleLogout}) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   
     const [value, setValue] = React.useState(0);
+
+    function handleClickLogoutButton() {
+      handleLogout();
+    }
 
   return (
     <div>
       <Title>Personal Settings</Title>
+
+      <WideButton onClick={handleClickLogoutButton}><span>Logout <TbDoorExit /></span></WideButton>
      
       <ProfileInfoGrid>
       <div className="avatar"> <img className="writeImg" src={birbImages.testavatar} alt="testavatar"></img></div>
