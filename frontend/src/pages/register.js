@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import uuid4 from "uuid4";
+import showNotifications from "../components/showNotifications/showNotifications";
+import registerUserToDatabase from "../utils/registerUserToDatabase";
 
 //Styled Components
 import { Title } from "../styledComponents/title";
 import { MainContainer } from "../styledComponents/mainContainer";
-import { birbImages } from "../assets/birbs/birbsimgs";
 import { Boxtitle } from "../styledComponents/boxtitle";
 import { InputField } from "../styledComponents/inputField";
-import { WideButton } from "../styledComponents/wideButton";
 import { Button } from "../styledComponents/button";
 import { SubmitButton } from "../styledComponents/submitButton";
 
@@ -21,23 +22,63 @@ export default function Register() {
   const usernameRef = useRef();
   const password1Ref = useRef();
   const password2Ref = useRef();
+  const formRef = useRef();
 
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+
+  const registerUser = async (event) => {
     event.preventDefault();
-    console.log("handleSubmit Funktion aufgerufen");
-console.log(email1Ref.current.value);
-console.log(email2Ref.current.value);
-console.log(usernameRef.current.value);
-console.log(password1Ref.current.value);
-console.log(password2Ref.current.value);
 
+    const formData = new FormData();
+    // Zugriff auf die einzelnen Formularfelder (name-Attribut)
+    const form = formRef.current;
+    const id = uuid4();
+
+    let file;
+    if (form.avatar.files[0]) {
+      file = form.avatar.files[0];
+    } else {
+      const response = await fetch("/assets/default.png");
+      console.log(response);
+      const data = await response.blob();
+      file = new File([data], "default.png", { type: "image/png" });
+    }
+
+    formData.append("id", id);
+    formData.append("avatar", file);
+    formData.append("email1", form.email1.value);
+    formData.append("email2", form.email2.value);
+    formData.append("username", form.username.value);
+    formData.append("password1", form.password1.value);
+    formData.append("password2", form.password2.value);
+
+    if (form.password1.value !== form.password2.value) {
+      showNotifications("Passwords do not match!", "error");
+      return;
+    }
+
+    if (form.email1.value !== form.email2.value) {
+      showNotifications("Emails do not match!", "error");
+      return;
+    }
+
+    async function navigateToLogin() {
+      const result = await registerUserToDatabase(formData);
+      if (result) {
+        navigate("/login");
+      } else {
+        showNotifications("Registration failed!", "error");
+      }
+    }
+
+    navigateToLogin();
   };
 
   return (
     <div>
       <Title>Register</Title>
       <MainContainer>
-      <form onSubmit={(e) => handleSubmit(e)}>
+        <form ref={formRef} onSubmit={(e) => registerUser(e)}>
           <Boxtitle>Avatar</Boxtitle>
           <input
             style={{ display: "none" }}
@@ -51,12 +92,28 @@ console.log(password2Ref.current.value);
 
           <Boxtitle>E-Mail</Boxtitle>
           <InputField>
-            <input name="email1" ref={email1Ref} type="email"></input>
+            <input
+              name="email1"
+              ref={email1Ref}
+              type="email"
+              placeholder="E-Mail*"
+              required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              title="Please enter a valid email address"
+            ></input>
           </InputField>
 
           <Boxtitle>Repeat E-Mail</Boxtitle>
           <InputField>
-            <input name="email2" ref={email2Ref} type="email"></input>
+            <input
+              name="email2"
+              ref={email2Ref}
+              type="email"
+              placeholder="Repeat Email*"
+              required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              title="Please enter a valid email address"
+            ></input>
           </InputField>
 
           <Boxtitle>Username</Boxtitle>
@@ -74,7 +131,9 @@ console.log(password2Ref.current.value);
             <input name="password2" ref={password2Ref} type="password"></input>
           </InputField>
 
-          <SubmitButton><button type="submit">Register</button></SubmitButton>
+          <SubmitButton>
+            <button type="submit">Register</button>
+          </SubmitButton>
         </form>
       </MainContainer>
 
