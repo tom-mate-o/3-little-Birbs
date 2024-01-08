@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import {jwtDecode} from 'jwt-decode';
 
 //Styled Components
 import { Title } from "../styledComponents/title";
@@ -12,6 +13,9 @@ import { Boxtitle } from "../styledComponents/boxtitle";
 import { MessageContainer } from "../styledComponents/messageContainer";
 import { FriendListGrid } from "../styledComponents/friendListGrid";
 
+//Costum Hooks
+import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
+
 import { birbImages } from "../assets/birbs/birbsimgs";
 import { HiOutlineXCircle } from "react-icons/hi";
 import { HiOutlineUserAdd } from "react-icons/hi";
@@ -21,6 +25,20 @@ export default function AddAFriend() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+ const { userData, setUserData } = useMongoDBUserData([]);
+
+ useEffect(() => {
+  if (userData) {
+  }
+}, [userData]);
+
+
+const token = localStorage.getItem("token");
+const decodedToken = jwtDecode(token);
+
+const user = userData.find(user => user.id === decodedToken.id);
+const friendcode = user ? user.friendcode : null;
 
   
   return (
@@ -32,7 +50,7 @@ export default function AddAFriend() {
         
         <MessageContainer>
             <div className="friendCodeFlex">
-                <h1>XXX-XXX-XXX</h1>
+                <h1>{friendcode}</h1>
                 <HiOutlineClipboard className="clipboardIcon"/>
             </div>
         </MessageContainer>

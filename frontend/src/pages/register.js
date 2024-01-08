@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import uuid4 from "uuid4";
+import ShortUniqueId from 'short-unique-id';
 import showNotifications from "../components/showNotifications/showNotifications";
 import registerUserToDatabase from "../utils/registerUserToDatabase";
 
@@ -33,6 +34,11 @@ export default function Register() {
     // Zugriff auf die einzelnen Formularfelder (name-Attribut)
     const form = formRef.current;
     const id = uuid4();
+    const uid = new ShortUniqueId({ length: 10 });
+    const friendcodeGen = uid.rnd();
+    const friendcodeRaw = friendcodeGen.toUpperCase();
+    const friendcode = friendcodeRaw;
+    
 
     let file;
     if (form.avatar.files.length > 0) {
@@ -46,6 +52,7 @@ export default function Register() {
     formData.append("username", form.username.value);
     formData.append("password1", form.password1.value);
     formData.append("password2", form.password2.value);
+    formData.append("friendcode", friendcode);
 
     if (form.password1.value !== form.password2.value) {
       showNotifications("Passwords do not match!", "error");
@@ -95,7 +102,7 @@ export default function Register() {
               required
               minLength="6"
               maxLength="50"
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              pattern="[a-z0-9._%+]+@[a-z0-9.-]+\.[a-z]{2,}$"
               title="Please enter a valid email address"
             ></input>
           </InputField>
@@ -110,7 +117,7 @@ export default function Register() {
               required
               minLength="6"
               maxLength="50"
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              pattern="[a-z0-9._%+]+@[a-z0-9.-]+\.[a-z]{2,}$"
               title="Please enter a valid email address"
             ></input>
           </InputField>
@@ -122,8 +129,8 @@ export default function Register() {
               ref={usernameRef}
               placeholder="Username"
               required
-              minlength="3"
-              maxlength="20"
+              minLength="3"
+              maxLength="20"
             ></input>
           </InputField>
 
@@ -135,7 +142,7 @@ export default function Register() {
               type="password"
               placeholder="Password*"
               required
-              minlength="6"
+              minLength="6"
               maxLength="60"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
               title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"
@@ -150,7 +157,7 @@ export default function Register() {
               type="password"
               placeholder="Repeat Password*"
               required
-              minlength="6"
+              minLength="6"
               maxLength="60"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
               title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"

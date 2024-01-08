@@ -64,6 +64,7 @@ app.get("/health-check", (req, res) => {
   res.status(200).send({ message: "I'm alive! Greetings from the backend!" });
 });
 
+//--------------------------------------------------------------------------------
 // Middleware - Multipart Form Data ----------------------------------------------
 
 const multer = require("multer");
@@ -86,7 +87,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post("/api/register", avatar.single("avatar"), async (req, res) => {
   try {
-    const { id, avatar, email1, username, password1 } = req.body;
+    const { id, avatar, email1, username, password1, friendcode } = req.body;
 
     if (!id || !email1 || !username || !password1) {
       return res.status(400).send({ message: "Required field is missing!" });
@@ -117,6 +118,7 @@ app.post("/api/register", avatar.single("avatar"), async (req, res) => {
       email: email1,
       username,
       hashedPassword,
+      friendcode,
     });
 
     console.log(userToAdd);
@@ -129,3 +131,15 @@ app.post("/api/register", avatar.single("avatar"), async (req, res) => {
     res.status(500).send({ message: "Error while creating User!" });
   }
 });
+
+// GET Route for Userdata ------------------------------------------------------
+app.get("/api/getuserdata", async (req, res) => {
+  try{
+    const getUserData = await User.find({});
+    console.log("Userdata loaded!");
+    res.status(200).send({ message: getUserData, data: getUserData });
+
+  }catch{
+    res.status(500).send({ message: "Error while loading Userdata!" });
+  }
+  });

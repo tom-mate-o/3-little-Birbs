@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
       minlength: 6,
       maxlength: 60,
     },
+    friendcode: {
+      type: String,
+      required: false,
+    },
     recievedPostsIds: {
       type: Array,
       default: [],

@@ -27,6 +27,7 @@ function App() {
   const handleLogout = () => {
     setLoggedIn(false);
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
     showNotifications("Bye, for now! 👋", "");
   };
 
