@@ -58,6 +58,10 @@ app.post("/api/login", userController.login);
 const getFriendsRoute = require("./routes/getFriendsRoute"); // Pfad zur Get-Route
 app.use("/api/getFriends", getFriendsRoute);
 
+// PUT Route um FriendIDs in Userdata zu speichern
+const putFriendsRoute = require("./routes/putFriendsRoute"); // Pfad zur Put-Route
+app.use("/api/putFriends", putFriendsRoute);
+
     
 
 app.listen(port, () => {

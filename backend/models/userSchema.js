@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema({
     id: {
       type: String,
       required: true,
+      index: true,
     },
     avatarUrl: {
       type: String,

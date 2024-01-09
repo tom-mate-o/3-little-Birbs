@@ -1,8 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import {jwtDecode} from 'jwt-decode';
+import { putFriendcodeToDatabaseConfig } from "../utils/putFriendcodeToDatabaseConfig";
 
 
 //Styled Components
@@ -46,6 +48,7 @@ const friendcode = user ? user.friendcode : null;
 
 const [friends, setFriends] = useState([]);
 
+
 useEffect(() => {
   getFriends(decodedToken.id)
     .then(friends => {
@@ -55,6 +58,18 @@ useEffect(() => {
       console.error('Error:', error);
     });
 }, []);
+
+const friendCodeToAdd = useRef(null);
+
+async function addFriend() {
+  const success = await putFriendcodeToDatabaseConfig({ friendCode: friendcode, userId: decodedToken.id, friendIdtoAdd: friendCodeToAdd.current.value.toUpperCase() });
+
+  if (success) {
+    const newFriends = await getFriends(decodedToken.id);
+    setFriends(newFriends);
+  }
+}
+
 
   
   return (
@@ -80,8 +95,11 @@ useEffect(() => {
        
         <InputFriendCode>
         <div className="insertCodeFlex">
-        <input className="friendcode"></input>
-        <HiOutlineUserAdd className="addfriendIcon"/>
+          
+        <input className="friendcode" ref={friendCodeToAdd} minLength="10"></input>
+        
+        <HiOutlineUserAdd className="addfriendIcon" onClick={addFriend}/>
+        
         </div>
         </InputFriendCode>
        
