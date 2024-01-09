@@ -18,14 +18,17 @@ export const FriendListGrid = styled.div`
     
 
     img{
+        width: 40px;
         height: 40px;
+        object-fit: cover;
+        object-position: center;
         border-radius: 10px;
    
     }
 
     .avatar{
         grid-column: 1 / 2;
-        background-color: 'red';
+
     }
 
     .name{

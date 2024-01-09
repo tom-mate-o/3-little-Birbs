@@ -27,7 +27,6 @@ export const NotificationGrid = styled.div`
     .avatar{
         grid-column: 1 / 2;
         grid-row: 1 / 3;
-        background-color: 'red';
         margin-right: 10px;
     }
 

@@ -21,7 +21,7 @@ import bigBirb20 from "./big/20_Purple_Martin_big.png";
 import writebutton from "./writebutton.png";
 import newpostbutton from "./newpostbutton.png";
 import pigeon from "./big/pigeon.png";
-import testavatar from "./testavatar.png";
+import noavatar from "./noavatar.png";
 import logo from "./logo.png";
 import pecking_animation from "./pecking_animation.gif";
 
@@ -49,7 +49,7 @@ export const birbImages = {
     writebutton,
     newpostbutton,
     pigeon,
-    testavatar,
+    noavatar,
     logo,
     pecking_animation,
     

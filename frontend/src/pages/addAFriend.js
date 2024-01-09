@@ -1,7 +1,9 @@
 import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {jwtDecode} from 'jwt-decode';
+
 
 //Styled Components
 import { Title } from "../styledComponents/title";
@@ -15,6 +17,8 @@ import { FriendListGrid } from "../styledComponents/friendListGrid";
 
 //Costum Hooks
 import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
+import { getFriends } from "../costumHooks/getFriends";
+
 
 import { birbImages } from "../assets/birbs/birbsimgs";
 import { HiOutlineXCircle } from "react-icons/hi";
@@ -39,6 +43,18 @@ const decodedToken = jwtDecode(token);
 
 const user = userData.find(user => user.id === decodedToken.id);
 const friendcode = user ? user.friendcode : null;
+
+const [friends, setFriends] = useState([]);
+
+useEffect(() => {
+  getFriends(decodedToken.id)
+    .then(friends => {
+      setFriends(friends);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}, []);
 
   
   return (
@@ -76,17 +92,17 @@ const friendcode = user ? user.friendcode : null;
       <SubTitle>Your Birb Friends</SubTitle>
 
       <MainContainer>
-        <FriendListGrid>
-    <div className="avatar"> <img className="writeImg" src={birbImages.testavatar} alt="testavatar"></img></div>
-    <div className="name">Name</div>
-    <div className="deleteButton"><HiOutlineXCircle /></div>
-    <div className="avatar"> <img className="writeImg" src={birbImages.testavatar} alt="testavatar"></img></div>
-    <div className="name">Name</div>
-    <div className="deleteButton"><HiOutlineXCircle /></div>
-    <div className="avatar"> <img className="writeImg" src={birbImages.testavatar} alt="testavatar"></img></div>
-    <div className="name">Name</div>
-    <div className="deleteButton"><HiOutlineXCircle /></div>
-    </FriendListGrid>
+      <FriendListGrid>
+  {friends.map((friend, index) => (
+    <React.Fragment key={index}>
+      <div className="avatar">
+        <img className="writeImg" src={friend.avatarUrl || birbImages.noavatar } alt={friend.username} />
+      </div>
+      <div className="name">{friend.username}</div>
+      <div className="deleteButton"><HiOutlineXCircle /></div>
+    </React.Fragment>
+  ))}
+</FriendListGrid>
       </MainContainer>
 
 

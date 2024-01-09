@@ -54,6 +54,10 @@ app.use("/api/getPool", getPoolRoute);
 const userController = require("./controller/userController");
 app.post("/api/login", userController.login);
 
+// GET Route for FriendIDs aus Userdata
+const getFriendsRoute = require("./routes/getFriendsRoute"); // Pfad zur Get-Route
+app.use("/api/getFriends", getFriendsRoute);
+
     
 
 app.listen(port, () => {
@@ -66,7 +70,7 @@ app.get("/health-check", (req, res) => {
 
 //--------------------------------------------------------------------------------
 // Middleware - Multipart Form Data ----------------------------------------------
-
+const path = require('path');
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -82,6 +86,9 @@ const avatar = multer({ storage });
 
 // Middleware für multipart formdata
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Fügen Sie diese Zeile hier hinzu
+
 
 // POST Route for Register ------------------------------------------------------
 

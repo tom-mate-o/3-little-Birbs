@@ -20,6 +20,9 @@ export const ProfileInfoGrid = styled.div`
 
     img{
         height: 90px;
+        width: 90px;
+        object-fit: cover;
+        object-position: center;
         border-radius: 10px;
    
     }
@@ -27,7 +30,6 @@ export const ProfileInfoGrid = styled.div`
     .avatar{
         grid-column: 1 / 2;
         grid-row: 1 / 3;
-        background-color: 'red';
         margin-right: 10px;
     }
 

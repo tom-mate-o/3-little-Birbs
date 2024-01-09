@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { TbDoorExit } from "react-icons/tb";
+import {jwtDecode} from 'jwt-decode';
 
 //Styled Components
 import { Title } from "../styledComponents/title";
@@ -13,6 +14,10 @@ import { InputField } from "../styledComponents/inputField";
 import { Boxtitle } from "../styledComponents/boxtitle";
 import { WideButton } from "../styledComponents/wideButton";
 import { birbImages } from "../assets/birbs/birbsimgs";
+
+//Costum Hooks
+import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
+
 
 import {Select, MenuItem} from "@mui/material";
 
@@ -27,6 +32,20 @@ export default function Settings({handleLogout}) {
       handleLogout();
     }
 
+    const { userData, setUserData } = useMongoDBUserData([]);
+
+    useEffect(() => {
+      if (userData) {
+      }
+    }, [userData]);
+
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
+
+    const user = userData.find(user => user.id === decodedToken.id);
+    const avatarUrl = user ? user.avatarUrl : null;
+    const username = user ? user.username : null;
+
   return (
     <div>
       <Title>Personal Settings</Title>
@@ -34,8 +53,8 @@ export default function Settings({handleLogout}) {
       <WideButton onClick={handleClickLogoutButton}><span>Logout <TbDoorExit /></span></WideButton>
      
       <ProfileInfoGrid>
-      <div className="avatar"> <img className="writeImg" src={birbImages.testavatar} alt="testavatar"></img></div>
-    <div className="username">Name</div>
+      <div className="avatar"> <img className="writeImg" src={avatarUrl} alt={username}></img></div>
+    <div className="username">{username}</div>
     <div className="button">change your<br/>Profile Picture</div>
     </ProfileInfoGrid>
 
