@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 //Styled Components
 import { Title } from "../styledComponents/title";
@@ -15,20 +16,23 @@ export default function PostToAFriendSuccessful() {
     window.scrollTo(0, 0);
   }, []);
 
+  const location = useLocation();
+  const { birbImageBirb1, birbImageBirb2, birbImageBirb3, selectedFriendName } = location.state;
+
   
   return (
     <div>
       <Title>Off they go,<br/>to your friend!</Title>
 
       <MainContainer>
-        <Boxtitle>3 little Birbs guided by a post pigeon<br/>for: NAME</Boxtitle>
+        <Boxtitle>3 little Birbs guided by a post pigeon<br/>for: {selectedFriendName}</Boxtitle>
 
         <HighlightedContainer>
         <div className="birbsInACollumn">
         <img className="birdImg" src={birbImages.pigeon} alt="hi"></img>
-        <img className="birdImg" src={birbImages.bigBirb20} alt="hi"></img>
-        <img className="birdImg" src={birbImages.bigBirb15} alt="hi"></img>
-        <img className="birdImg" src={birbImages.bigBirb02} alt="hi"></img>
+        <img className="birdImg" src={birbImageBirb1} alt="hi"></img>
+        <img className="birdImg" src={birbImageBirb2} alt="hi"></img>
+        <img className="birdImg" src={birbImageBirb3} alt="hi"></img>
         </div>
         </HighlightedContainer>
         <Boxtitle>Your Posting was successful!</Boxtitle>

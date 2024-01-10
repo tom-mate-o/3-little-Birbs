@@ -62,6 +62,9 @@ app.use("/api/getFriends", getFriendsRoute);
 const putFriendsRoute = require("./routes/putFriendsRoute"); // Pfad zur Put-Route
 app.use("/api/putFriends", putFriendsRoute);
 
+// PUT Route um PostIDs in Userdata zu speichern
+const putPostIdToUserRoute = require("./routes/putPostIdToUserRoute"); // Pfad zur Put-Route
+app.use("/api/putPostIdToUser", putPostIdToUserRoute);
     
 
 app.listen(port, () => {

@@ -1,9 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
+import { useRef } from "react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
+import uuid4 from "uuid4";
+import {DateTime} from "luxon";
+import { useNavigate } from "react-router-dom";
+import { addPostToDatabaseConfig } from "../utils/addPostToDatabaseConfig";
+import { putPostIdToUserConfig } from "../utils/putPostIdToUserConfig";
 
 //Styled Components
 import { Title } from "../styledComponents/title";
@@ -22,7 +27,7 @@ import { birbImages } from "../assets/birbs/birbsimgs";
 import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
 import { getFriends } from "../costumHooks/getFriends";
 
-import {Select, MenuItem} from "@mui/material";
+import { Select, MenuItem } from "@mui/material";
 
 export default function PostToAFriend() {
   useEffect(() => {
@@ -30,23 +35,34 @@ export default function PostToAFriend() {
   }, []);
 
   
-    const [value, setValue] = React.useState(0);
-    const location = useLocation();
-    const { birbImageBirb1, birbImageBirb2, birbImageBirb3, goodthing1, goodthing2,goodthing3, message } = location.state;
- 
+  const navigate = useNavigate();
+  const [value, setValue] = React.useState(0);
+  const location = useLocation();
+  const {
+    birbImageBirb1,
+    birbImageName1,
+    birbImageBirb2,
+    birbImageName2,
+    birbImageBirb3,
+    birbImageName3,
+    goodthing1,
+    goodthing2,
+    goodthing3,
+    message,
+  } = location.state;
 
   const { userData, setUserData } = useMongoDBUserData([]);
 
   useEffect(() => {
     if (userData) {
     }
-  }
-  , [userData]);
+  }, [userData]);
 
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
 
   const user = userData.find((user) => user.id === decodedToken.id);
+  const username = user ? user.username : null;
 
   const [friends, setFriends] = React.useState([]);
 
@@ -60,7 +76,6 @@ export default function PostToAFriend() {
       });
   }, []);
 
-
   const [selectedFriend, setSelectedFriend] = useState("");
   const [selectedFriendName, setSelectedFriendName] = useState("");
 
@@ -70,96 +85,146 @@ export default function PostToAFriend() {
     console.log(friends[friendIndex].username);
     setSelectedFriendName(friends[friendIndex].username);
     console.log(selectedFriendName);
-
-
   };
+
+  const goodthing1Ref = useRef();
+  const goodthing2Ref = useRef();
+  const goodthing3Ref = useRef();
+  const messageRef = useRef();
+
+  async function handleClickPost(e) {
+    e.preventDefault();
+
+    const id = uuid4();
+    const currentDate = DateTime.now().toISO();
+
+
+    const newPost = {
+      id: id,
+      date: currentDate,
+      public: false,
+      private: true,
+      poster: username,
+      reciever: selectedFriendName,
+      birb1: birbImageName1,
+      goodthing1: goodthing1Ref.current.value,
+      birb2: birbImageName2,
+      goodthing2: goodthing2Ref.current.value,
+      birb3: birbImageName3,
+      goodthing3: goodthing3Ref.current.value,
+      message: messageRef.current.value,
+    };
+
+
+    await addPostToDatabaseConfig(newPost);
+    await putPostIdToUserConfig(id, selectedFriendName);
+
+
+    navigate("/posttoafriendsuccessful", { 
+      state: { 
+        birbImageBirb1: birbImageBirb1, 
+        birbImageBirb2: birbImageBirb2, 
+        birbImageBirb3: birbImageBirb3,
+        selectedFriendName: selectedFriendName 
+      }
+      });
+  }
+
   
-  
+
+
   return (
     <div>
-      <Title>Send 3 little Birbs<br/>to a Friend</Title>
+      <Title>
+        Send 3 little Birbs
+        <br />
+        to a Friend
+      </Title>
       <InfoContainer>
         <div className="bulbIcon">
           <HiOutlineLightBulb />
         </div>
         <div>
-       choose a friend to whom <br/>you want to send your Birbs.
+          choose a friend to whom <br />
+          you want to send your Birbs.
         </div>
       </InfoContainer>
 
-      <Select 
-  labelId="select-label"
-  className="select"
-  value={selectedFriend}
-  onChange={handleFriendChange}
-  sx={{
-    marginTop: "15px",
-    height: 50,
-    fontFamily: "var(--fontFamily)",
-    fontWeight: "800",
-    borderRadius: '15px',
-    backgroundColor: "var(--textOnButton)",
-    color: "var(--textOnBright)",
-  }}
-  MenuProps={{
-    PaperProps: {
-      sx: {
-        backgroundColor: 'var(--textOnButton)',
-        borderRadius: '15px',
-      },
-    },
-  }}
->
-
-
-<MenuItem disabled value={null}>
-    Choose a friend
-  </MenuItem>
-  {friends.map((friend, index) => (
-    <MenuItem key={index} value={index}>
-      {friend.username}
-    </MenuItem>
-  ))}
-</Select>
+      <Select
+        labelId="select-label"
+        className="select"
+        value={selectedFriend}
+        onChange={handleFriendChange}
+        sx={{
+          marginTop: "15px",
+          height: 50,
+          fontFamily: "var(--fontFamily)",
+          fontWeight: "800",
+          borderRadius: "15px",
+          backgroundColor: "var(--textOnButton)",
+          color: "var(--textOnBright)",
+        }}
+        MenuProps={{
+          PaperProps: {
+            sx: {
+              backgroundColor: "var(--textOnButton)",
+              borderRadius: "15px",
+            },
+          },
+        }}
+      >
+        <MenuItem disabled value={null}>
+          Choose a friend
+        </MenuItem>
+        {friends.map((friend, index) => (
+          <MenuItem key={index} value={index}>
+            {friend.username}
+          </MenuItem>
+        ))}
+      </Select>
 
       <MainContainer>
-      <Boxtitle>3 little Birbs for: {selectedFriendName}</Boxtitle>
+        <Boxtitle>3 little Birbs for: {selectedFriendName}</Boxtitle>
         <GoodThingContainerBirdLeft>
           <div>
             <img className="birdImg" src={birbImageBirb1} alt="hi"></img>
           </div>
-          <InputGoodThing><textarea defaultValue={goodthing1}></textarea></InputGoodThing>
+          <InputGoodThing>
+            <textarea defaultValue={goodthing1} ref={goodthing1Ref}></textarea>
+          </InputGoodThing>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdLeft>
-        <div>
+          <div>
             <img className="birdImg" src={birbImageBirb2} alt="hi"></img>
           </div>
-          <InputGoodThing><textarea defaultValue={goodthing2}></textarea></InputGoodThing>
+          <InputGoodThing>
+            <textarea defaultValue={goodthing2} ref={goodthing2Ref}></textarea>
+          </InputGoodThing>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdLeft>
           <div>
             <img className="birdImg" src={birbImageBirb3} alt="hi"></img>
           </div>
-         
-          <InputGoodThing><textarea defaultValue={goodthing3}></textarea></InputGoodThing>
+
+          <InputGoodThing>
+            <textarea defaultValue={goodthing3} ref={goodthing3Ref}></textarea>
+          </InputGoodThing>
         </GoodThingContainerBirdLeft>
 
         <Boxtitle>your message for: {selectedFriendName}</Boxtitle>
 
         <HighlightedContainer>
-        <InputGoodThing><textarea defaultValue={message}></textarea></InputGoodThing>
+          <InputGoodThing>
+            <textarea defaultValue={message} ref={messageRef}></textarea>
+          </InputGoodThing>
         </HighlightedContainer>
       </MainContainer>
 
-
       <div className="buttonContainer">
-
-            <SmallButtons>
-          <NavLink to="/posttoafriendsuccessful">
+        <SmallButtons onClick={handleClickPost}>
             <img className="writeImg" src={birbImages.pigeon} alt="hi"></img>
             <p>send a post pigeon</p>
-            </NavLink>
-            </SmallButtons>
+        </SmallButtons>
       </div>
     </div>
   );

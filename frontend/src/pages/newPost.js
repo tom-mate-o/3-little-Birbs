@@ -6,6 +6,7 @@ import { addPostToDatabaseConfig } from "../utils/addPostToDatabaseConfig";
 import uuid4 from "uuid4";
 import {DateTime} from "luxon";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 //Styled Components
 import { useEffect } from "react";
@@ -20,6 +21,9 @@ import { Boxtitle } from "../styledComponents/boxtitle";
 
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { birbImages } from "../assets/birbs/birbsimgs";
+
+//Costum Hooks
+import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
 
 export default function NewPost() {
   useEffect(() => {
@@ -75,6 +79,19 @@ export default function NewPost() {
     bigBirb20: "bigBirb20",
   }
 
+  const { userData, setUserData } = useMongoDBUserData([]);
+
+  useEffect(() => {
+    if (userData) {
+    }
+  }, [userData]);
+
+  const token = localStorage.getItem("token");
+  const decodedToken = jwtDecode(token);
+
+  const user = userData.find((user) => user.id === decodedToken.id);
+  const username = user ? user.username : null;
+
   const handleBirbImage1Click = () => {
     let newBirbImageName = `bigBirb${getRandomBirbNumber()}`;
     setBirbImageName1(newBirbImageName);
@@ -110,7 +127,7 @@ export default function NewPost() {
       date: currentDate,
       public: true,
       private: false,
-      poster: "Tom",
+      poster: username,
       reciever: "Public",
       birb1: birbImageName1,
       goodthing1: goodthing1.current.value,
@@ -139,10 +156,13 @@ export default function NewPost() {
    navigate("/posttoafriend", { 
     state: { 
       birbImageBirb1: birbImageBirb1,
+      birbImageName1: birbImageName1,
       goodthing1: goodthing1.current.value, 
       birbImageBirb2: birbImageBirb2, 
+      birbImageName2: birbImageName2,
       goodthing2: goodthing2.current.value,
-      birbImageBirb3: birbImageBirb3, 
+      birbImageBirb3: birbImageBirb3,
+      birbImageName3: birbImageName3, 
       goodthing3: goodthing3.current.value,
       message: message.current.value,
     }
