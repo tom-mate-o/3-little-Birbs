@@ -69,11 +69,6 @@ export default function Messages() {
   </MainContainer>
   }
 
-
-
-
-
-
   
   return (
     <div>
@@ -88,7 +83,7 @@ export default function Messages() {
 
       {posts.slice().reverse().map((post, index) => (
         <MessageButton key={index}>
-          <NavLink to="/feed">
+          <NavLink to={`/post/${post.id}`}>
             <p><b>{post.poster}</b> on <i>{format(new Date(post.date), 'MMMM do \'at\' HH:mm')}</i></p>
             <MessageContainer>
               <div className="birbsInARow">

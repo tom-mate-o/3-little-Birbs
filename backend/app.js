@@ -66,9 +66,13 @@ app.use("/api/putFriends", putFriendsRoute);
 const putPostIdToUserRoute = require("./routes/putPostIdToUserRoute"); // Pfad zur Put-Route
 app.use("/api/putPostIdToUser", putPostIdToUserRoute);
 
-// GET Route um übereinstimmende Posts mit RecievedPostIDs aus Userdata zu finden
-const getMatchingPostsMessagesRoute = require("./routes/getMatchingPostsMessagesRoute"); // Pfad zur Get-Route
+// POST Route um übereinstimmende Posts mit RecievedPostIDs aus Userdata zu finden
+const getMatchingPostsMessagesRoute = require("./routes/getMatchingPostsMessagesRoute"); // Pfad zur Post-Route
 app.use("/api/getMatchingPostsMessages", getMatchingPostsMessagesRoute);
+
+// GET Post ID out from URL and find Post in Database
+const getPostWithIdRoute = require("./routes/getPostWithIdRoute"); // Pfad zur Get-Route
+app.use("/api/getPostWithId", getPostWithIdRoute);
 
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`);
