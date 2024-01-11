@@ -86,6 +86,18 @@ export default function NewPost() {
     }
   }, [userData]);
 
+  useEffect(() => {
+    setBirbImageBirb1(birbImages[birbImageName1]);
+  }, [birbImageName1]);
+  
+  useEffect(() => {
+    setBirbImageBirb2(birbImages[birbImageName2]);
+  }, [birbImageName2]);
+  
+  useEffect(() => {
+    setBirbImageBirb3(birbImages[birbImageName3]);
+  }, [birbImageName3]);
+
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
 
@@ -167,7 +179,11 @@ export default function NewPost() {
       message: message.current.value,
     }
 
+    
+
     });
+
+    console.log(birbImageName1, birbImageName2, birbImageName3);
   };
 
 

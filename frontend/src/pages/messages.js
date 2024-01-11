@@ -1,6 +1,11 @@
+// messages.js
+
 import React from "react";
 import { useEffect } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { format } from 'date-fns';
 
 //Styled Components
 import { Title } from "../styledComponents/title";
@@ -9,13 +14,70 @@ import { MessageButton } from "../styledComponents/messageButton";
 import { MessageContainer } from "../styledComponents/messageContainer";
 import { birbImages } from "../assets/birbs/birbsimgs";
 
+//Costum Hooks
+import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
+import { getPostsWithMachtingIDFromDatabaseConfig } from "../utils/getPostsWithMachtingIDFromDatabaseConfig";
+
+
 export default function Messages() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const [isLoading, setIsLoading] = useState(true); 
+  const { userData, setUserData } = useMongoDBUserData([]);
+  const [messages, setMessages] = useState([]);
+  const [posts, setPosts] = useState([]);
+
+  const token = localStorage.getItem("token");
+  const decodedToken = jwtDecode(token);
+
+  const user = userData.find((user) => user.id === decodedToken.id);
+  const username = user ? user.username : null;
+
+  // Solange userData leer ist wird der Loading Screen gezeigt
+  useEffect(() => {
+    if (userData && userData.length > 0) {
+      setIsLoading(false);
+    }
+  }, [userData]);
+
+  // wenn user geladen ist, werden die message ids unter Messages gespeichert
+  useEffect(() => {
+    if(user){
+      setMessages(user.recievedPostsIds);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const data = await getPostsWithMachtingIDFromDatabaseConfig(messages);
+      setPosts(data);
+    };
+  
+    if (messages && messages.length > 0) {
+      fetchPosts();
+    }
+  }, [messages]);
+  
+
+
+  // Loading Screen 
+  if (isLoading) {
+    return <MainContainer>
+    <div><img className="birdImg" src={birbImages.pecking_animation} alt="birb1"></img>...Loading...</div>
+  </MainContainer>
+  }
+
+
+
+
+
+
   
   return (
     <div>
+
       <Title>
         Post Pigeons
         <br />
@@ -24,75 +86,21 @@ export default function Messages() {
 
       <MainContainer>
 
-        <MessageButton>
+      {posts.slice().reverse().map((post, index) => (
+        <MessageButton key={index}>
           <NavLink to="/feed">
-            <p>NAME one Dec, 20th 2023</p>
+            <p><b>{post.poster}</b> on <i>{format(new Date(post.date), 'MMMM do \'at\' HH:mm')}</i></p>
             <MessageContainer>
               <div className="birbsInARow">
-                <img className="birdImg" src={birbImages.pigeon} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb20} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb15} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb02} alt="hi"></img>
+                <img className="birdImg" src={birbImages.pigeon} alt="Post Pigeon"></img>
+                <img className="birdImg" src={birbImages[post.birb1]} alt={post.birb1}></img>
+                <img className="birdImg" src={birbImages[post.birb2]} alt={post.birb2}></img>
+                <img className="birdImg" src={birbImages[post.birb3]} alt={post.birb3}></img>
               </div>
             </MessageContainer>
           </NavLink>
         </MessageButton>
-
-        <MessageButton>
-          <NavLink to="/feed">
-            <p>NAME one Dec, 20th 2023</p>
-            <MessageContainer>
-              <div className="birbsInARow">
-                <img className="birdImg" src={birbImages.pigeon} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb04} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb17} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb02} alt="hi"></img>
-              </div>
-            </MessageContainer>
-          </NavLink>
-        </MessageButton>
-
-        <MessageButton>
-          <NavLink to="/feed">
-            <p>NAME one Dec, 20th 2023</p>
-            <MessageContainer>
-              <div className="birbsInARow">
-                <img className="birdImg" src={birbImages.pigeon} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb01} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb03} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb12} alt="hi"></img>
-              </div>
-            </MessageContainer>
-          </NavLink>
-        </MessageButton>
-
-        <MessageButton>
-          <NavLink to="/feed">
-            <p>NAME one Dec, 20th 2023</p>
-            <MessageContainer>
-              <div className="birbsInARow">
-                <img className="birdImg" src={birbImages.pigeon} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb10} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb08} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb06} alt="hi"></img>
-              </div>
-            </MessageContainer>
-          </NavLink>
-        </MessageButton>
-
-        <MessageButton>
-          <NavLink to="/feed">
-            <p>NAME one Dec, 20th 2023</p>
-            <MessageContainer>
-              <div className="birbsInARow">
-                <img className="birdImg" src={birbImages.pigeon} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb19} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb20} alt="hi"></img>
-                <img className="birdImg" src={birbImages.bigBirb04} alt="hi"></img>
-              </div>
-            </MessageContainer>
-          </NavLink>
-        </MessageButton>
+      ))}
 
         
       </MainContainer>

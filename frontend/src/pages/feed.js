@@ -28,8 +28,8 @@ export default function Feed() {
 
   if (!poolPosts || poolPosts.length === 0) {
     return <MainContainer>
-      <div><img className="birdImg" src={birbImages.pecking_animation} alt="birb1"></img>...Loading...</div> ;
-    </MainContainer> // Show a loading message while fetching data
+      <div><img className="birdImg" src={birbImages.pecking_animation} alt="birb1"></img>...Loading...</div>
+    </MainContainer>
   }
 
   const randomPost = poolPosts[Math.floor(Math.random() * poolPosts.length)];

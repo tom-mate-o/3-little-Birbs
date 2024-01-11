@@ -51,6 +51,8 @@ export default function PostToAFriend() {
     message,
   } = location.state;
 
+  console.log(birbImageName1, birbImageName2, birbImageName3);
+
   const { userData, setUserData } = useMongoDBUserData([]);
 
   useEffect(() => {
@@ -92,11 +94,19 @@ export default function PostToAFriend() {
   const goodthing3Ref = useRef();
   const messageRef = useRef();
 
+ 
   async function handleClickPost(e) {
     e.preventDefault();
 
     const id = uuid4();
     const currentDate = DateTime.now().toISO();
+
+    const newbirbImageName1 = birbImageName1;
+    const newbirbImageName2 = birbImageName2;
+    const newbirbImageName3 = birbImageName3;
+  
+    console.log("newbirbImageName1", newbirbImageName1, "newbirbImageName2", newbirbImageName2, "newbirbImageName3", newbirbImageName3);
+  
 
 
     const newPost = {
@@ -106,14 +116,16 @@ export default function PostToAFriend() {
       private: true,
       poster: username,
       reciever: selectedFriendName,
-      birb1: birbImageName1,
+      birb1: newbirbImageName1,
       goodthing1: goodthing1Ref.current.value,
-      birb2: birbImageName2,
+      birb2: newbirbImageName2,
       goodthing2: goodthing2Ref.current.value,
-      birb3: birbImageName3,
+      birb3: newbirbImageName3,
       goodthing3: goodthing3Ref.current.value,
       message: messageRef.current.value,
     };
+
+    console.log(birbImageName1, birbImageName2, birbImageName3);
 
 
     await addPostToDatabaseConfig(newPost);

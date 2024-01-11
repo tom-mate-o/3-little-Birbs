@@ -65,7 +65,10 @@ app.use("/api/putFriends", putFriendsRoute);
 // PUT Route um PostIDs in Userdata zu speichern
 const putPostIdToUserRoute = require("./routes/putPostIdToUserRoute"); // Pfad zur Put-Route
 app.use("/api/putPostIdToUser", putPostIdToUserRoute);
-    
+
+// GET Route um übereinstimmende Posts mit RecievedPostIDs aus Userdata zu finden
+const getMatchingPostsMessagesRoute = require("./routes/getMatchingPostsMessagesRoute"); // Pfad zur Get-Route
+app.use("/api/getMatchingPostsMessages", getMatchingPostsMessagesRoute);
 
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`);
