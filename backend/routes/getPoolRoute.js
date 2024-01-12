@@ -4,7 +4,7 @@ const Post = require('../models/postSchema'); // Pfad zu Ihrem Post-Modell
 
 router.get("/", async (req, res) => {
     try {
-        const posts = await Post.find({});
+        const posts = await Post.find({public: true});
         console.log("Success - Getting Posts from Pool DB");
         res.status(200).json(posts);
     } catch (error) {

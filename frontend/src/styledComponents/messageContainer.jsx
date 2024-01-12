@@ -32,7 +32,12 @@ export const MessageContainer = styled.div`
             position: absolute;
 
             right: 0;
+            margin-right: 10px;
             z-index: 999;
+        }
+
+        .clipboardIcon:hover{
+            cursor: pointer;
         }
 
     }

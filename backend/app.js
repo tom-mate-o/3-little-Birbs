@@ -74,6 +74,10 @@ app.use("/api/getMatchingPostsMessages", getMatchingPostsMessagesRoute);
 const getPostWithIdRoute = require("./routes/getPostWithIdRoute"); // Pfad zur Get-Route
 app.use("/api/getPostWithId", getPostWithIdRoute);
 
+// DELETE Route um FriendIDs in Userdata zu löschen
+const deleteFriendsRoute = require("./routes/deleteFriendsRoute"); // Pfad zur Delete-Route
+app.use("/api/deleteFriends", deleteFriendsRoute);
+
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`);
 });

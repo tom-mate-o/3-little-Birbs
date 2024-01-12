@@ -47,7 +47,7 @@ export default function Feed() {
         </div>
       </InfoContainer>
       <MainContainer>
-        <Boxtitle>3 little Birbs from: {randomPost.poster}</Boxtitle>
+        <Boxtitle>3 little Birbs from a Stranger</Boxtitle>
         <GoodThingContainerBirdLeft>
           <div>
             <img className="birdImg" src={birbImages[randomPost.birb1]} alt="birb1"></img>
@@ -67,7 +67,7 @@ export default function Feed() {
           <div>{randomPost.goodthing3}</div>
         </GoodThingContainerBirdLeft>
 
-        <Boxtitle>a message from {randomPost.poster}</Boxtitle>
+        <Boxtitle>a message from that Person</Boxtitle>
 
         <HighlightedContainer>
           <p>{randomPost.message}</p>

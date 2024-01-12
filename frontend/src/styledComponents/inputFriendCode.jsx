@@ -34,5 +34,9 @@ input {
             z-index: 999;
         }
 
+        .addfriendIcon:hover{
+            cursor: pointer;
+        }
+
 
 `;

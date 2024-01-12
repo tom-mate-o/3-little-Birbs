@@ -12,6 +12,7 @@ export async function getFriends(decodedTokenId) {
     const data = await response.json();
     return data.friendUsernames.map((username, index) => ({
       username,
-      avatarUrl: data.friendAvatars[index]
+      avatarUrl: data.friendAvatars[index],
+      friendcode: data.friendcode[index]
     }));
   }

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import {jwtDecode} from 'jwt-decode';
 import { putFriendcodeToDatabaseConfig } from "../utils/putFriendcodeToDatabaseConfig";
+import { deleteFriendcodeFromDatabaseConfig } from "../utils/deleteFriendcodeFromDatabaseConfig";
 
 
 //Styled Components
@@ -16,6 +17,7 @@ import { InputFriendCode } from "../styledComponents/inputFriendCode";
 import { Boxtitle } from "../styledComponents/boxtitle";
 import { MessageContainer } from "../styledComponents/messageContainer";
 import { FriendListGrid } from "../styledComponents/friendListGrid";
+import {WideButton, wideButton} from "../styledComponents/wideButton";
 
 //Costum Hooks
 import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
@@ -47,6 +49,9 @@ const user = userData.find(user => user.id === decodedToken.id);
 const friendcode = user ? user.friendcode : null;
 
 const [friends, setFriends] = useState([]);
+const [confirmDelete, setConfirmDelete] = useState(false);
+const [userId, setUserId] = useState(null);
+const [friendcodeToDelete, setFriendcodeToDelete] = useState(null);
 
 
 useEffect(() => {
@@ -70,6 +75,31 @@ async function addFriend() {
   }
 }
 
+async function deleteFriend(event, friend) {
+  event.preventDefault();
+
+  const username = friend.username;
+  setUserId(decodedToken.id);
+  setFriendcodeToDelete(friend.friendcode);
+
+  setConfirmDelete(true);
+}
+
+  async function confirmDeleteFriend(){
+    const success = await deleteFriendcodeFromDatabaseConfig(userId, friendcodeToDelete)
+  
+    if (success) {
+      const newFriends = await getFriends(decodedToken.id);
+      setFriends(newFriends);
+    }
+    setConfirmDelete(false);
+  }
+  
+
+
+
+
+
 
   
   return (
@@ -82,7 +112,7 @@ async function addFriend() {
         <MessageContainer>
             <div className="friendCodeFlex">
                 <h1>{friendcode}</h1>
-                <HiOutlineClipboard className="clipboardIcon"/>
+                <HiOutlineClipboard className="clipboardIcon" onClick={()=> navigator.clipboard.writeText(friendcode)}/>
             </div>
         </MessageContainer>
 
@@ -117,11 +147,14 @@ async function addFriend() {
         <img className="writeImg" src={friend.avatarUrl || birbImages.noavatar } alt={friend.username} />
       </div>
       <div className="name">{friend.username}</div>
-      <div className="deleteButton"><HiOutlineXCircle /></div>
+
+      <div className="deleteButton" onClick={(event) => deleteFriend(event, friend)}><HiOutlineXCircle /></div>
     </React.Fragment>
   ))}
 </FriendListGrid>
       </MainContainer>
+
+      {confirmDelete && <WideButton onClick={confirmDeleteFriend}>Confirm Delete</WideButton>}
 
 
 

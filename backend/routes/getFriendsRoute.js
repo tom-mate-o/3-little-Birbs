@@ -26,8 +26,11 @@ router.get("/", async (req, res) => {
         // get the Avatar for each Friend
         const friendAvatars = friends.map(friend => friend.avatarUrl);
 
+        // get the UserID for each Friend
+        const friendcode = friends.map(friend => friend.friendcode);
+
         // send the Usernames + Avatars to the frontend
-        res.status(200).json({ friendUsernames, friendAvatars });
+        res.status(200).json({ friendUsernames, friendAvatars, friendcode });
         console.log("Friend-Usernames sent!");
     } catch (error) {
         console.error("Error while getting Friends from DB!", error);
