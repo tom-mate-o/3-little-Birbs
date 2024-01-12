@@ -128,10 +128,11 @@ export default function PostToAFriend() {
     console.log(birbImageName1, birbImageName2, birbImageName3);
 
 
-    await addPostToDatabaseConfig(newPost);
+    const success = await addPostToDatabaseConfig(newPost);
+    
+
+    if (success) {
     await putPostIdToUserConfig(id, selectedFriendName);
-
-
     navigate("/posttoafriendsuccessful", { 
       state: { 
         birbImageBirb1: birbImageBirb1, 
@@ -139,9 +140,10 @@ export default function PostToAFriend() {
         birbImageBirb3: birbImageBirb3,
         selectedFriendName: selectedFriendName 
       }
-      });
+    }
+    );
+    }
   }
-
   
 
 
@@ -202,7 +204,9 @@ export default function PostToAFriend() {
             <img className="birdImg" src={birbImageBirb1} alt="hi"></img>
           </div>
           <InputGoodThing>
-            <textarea defaultValue={goodthing1} ref={goodthing1Ref}></textarea>
+            <textarea defaultValue={goodthing1} ref={goodthing1Ref} required
+              minLength="3"
+              maxLength="60"></textarea>
           </InputGoodThing>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdLeft>
@@ -210,7 +214,9 @@ export default function PostToAFriend() {
             <img className="birdImg" src={birbImageBirb2} alt="hi"></img>
           </div>
           <InputGoodThing>
-            <textarea defaultValue={goodthing2} ref={goodthing2Ref}></textarea>
+            <textarea defaultValue={goodthing2} ref={goodthing2Ref} required
+              minLength="3"
+              maxLength="60"></textarea>
           </InputGoodThing>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdLeft>
@@ -219,7 +225,9 @@ export default function PostToAFriend() {
           </div>
 
           <InputGoodThing>
-            <textarea defaultValue={goodthing3} ref={goodthing3Ref}></textarea>
+            <textarea defaultValue={goodthing3} ref={goodthing3Ref} required
+              minLength="3"
+              maxLength="60"></textarea>
           </InputGoodThing>
         </GoodThingContainerBirdLeft>
 
@@ -227,7 +235,9 @@ export default function PostToAFriend() {
 
         <HighlightedContainer>
           <InputGoodThing>
-            <textarea defaultValue={message} ref={messageRef}></textarea>
+            <textarea defaultValue={message} ref={messageRef} required
+              minLength="3"
+              maxLength="100"></textarea>
           </InputGoodThing>
         </HighlightedContainer>
       </MainContainer>

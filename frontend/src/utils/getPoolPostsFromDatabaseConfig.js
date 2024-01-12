@@ -12,7 +12,6 @@ export async function getPoolPostsFromDatabaseConfig(setCallbackFunction) {
         },
     };
     const response = await axios(config);
-    console.log(response.data.message);
     setCallbackFunction(response.data); // Set the State with the fetched data
   } catch (error) {
     console.error("Fetching data from backend failed!");

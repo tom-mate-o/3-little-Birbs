@@ -14,6 +14,11 @@ export const HighlightedContainer = styled.div`
     align-items: center;
     text-align: center;
 
+    p{
+        max-width: 50ch;
+        word-wrap: break-word;
+    }
+
     .birbsInACollumn{
         display: flex;
         flex-direction: column;

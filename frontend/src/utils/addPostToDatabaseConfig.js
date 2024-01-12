@@ -14,9 +14,27 @@ export async function addPostToDatabaseConfig(newPost) {
         }
         const response = await axios(config);
         console.log(response.data.message);
-        showNotifications("Birbs have been sent!", "success")
+        if(response.status === 201){
+            showNotifications("Birbs have been sent!", "success")
         return true;
+        }
     } catch (error) {
+        if(error.response.status === 400){
+            showNotifications("Fields cannot be empty!", "warn")
+            return false;
+        }
+        if(error.response.status === 401){
+            showNotifications("Fields must be between 3 and 60 characters long!", "warn")
+            return false;
+        }
+        if(error.response.status === 402){
+            showNotifications("Message must be between 3 and 100 characters long!", "warn")
+            return false;
+        }
+        if(error.response.status === 403){
+            showNotifications("Reciever cannot be empty!", "warn")
+            return false;
+        }
         console.error("Fetch in Frontend failed", error);
         return false;
     }

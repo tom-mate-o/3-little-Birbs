@@ -52,10 +52,10 @@ export default function Feed() {
           <div>
             <img className="birdImg" src={birbImages[randomPost.birb1]} alt="birb1"></img>
           </div>
-          <div>{randomPost.goodthing1}</div>
+          <div><p>{randomPost.goodthing1}</p></div>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdRight>
-          <div>{randomPost.goodthing2}</div>
+          <div><p>{randomPost.goodthing2}</p></div>
           <div>
             <img className="birdImg" src={birbImages[randomPost.birb2]} alt="birb2"></img>
           </div>
@@ -64,7 +64,7 @@ export default function Feed() {
           <div>
             <img className="birdImg" src={birbImages[randomPost.birb3]} alt="birb3"></img>
           </div>
-          <div>{randomPost.goodthing3}</div>
+          <div><p>{randomPost.goodthing3}</p></div>
         </GoodThingContainerBirdLeft>
 
         <Boxtitle>a message from that Person</Boxtitle>

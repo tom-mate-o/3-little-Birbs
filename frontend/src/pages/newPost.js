@@ -151,16 +151,20 @@ export default function NewPost() {
     };
   
 
-   await addPostToDatabaseConfig(newPost);
+   
 
+   const success = await addPostToDatabaseConfig(newPost);
+
+    if (success) {
+      
    navigate("/postsuccessful", { 
     state: { 
       birbImageBirb1: birbImageBirb1, 
       birbImageBirb2: birbImageBirb2, 
       birbImageBirb3: birbImageBirb3 
+    }});
     }
-    });
-  };
+  }
 
   async function handleClickPostFriend(e) {
     e.preventDefault();
@@ -217,7 +221,9 @@ export default function NewPost() {
             ></img>
           </div>
           <InputGoodThing>
-            <textarea ref={goodthing1}></textarea>
+            <textarea ref={goodthing1} required
+              minLength="3"
+              maxLength="60"></textarea>
           </InputGoodThing>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdLeft>
@@ -230,7 +236,9 @@ export default function NewPost() {
             ></img>{" "}
           </div>
           <InputGoodThing>
-            <textarea ref={goodthing2}></textarea>
+            <textarea ref={goodthing2} required
+              minLength="3"
+              maxLength="60"></textarea>
           </InputGoodThing>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdLeft>
@@ -244,7 +252,9 @@ export default function NewPost() {
           </div>
 
           <InputGoodThing>
-            <textarea ref={goodthing3}></textarea>
+            <textarea ref={goodthing3} required
+              minLength="3"
+              maxLength="60"></textarea>
           </InputGoodThing>
         </GoodThingContainerBirdLeft>
 
@@ -252,7 +262,9 @@ export default function NewPost() {
 
         <HighlightedContainer>
           <InputGoodThing>
-            <textarea ref={message}></textarea>
+            <textarea ref={message} required
+              minLength="3"
+              maxLength="100"></textarea>
           </InputGoodThing>
         </HighlightedContainer>
       </MainContainer>

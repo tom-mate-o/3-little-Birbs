@@ -5,9 +5,20 @@ const User = require("../models/userSchema");
 exports.login = async (req, res) => {
      // destructuring der Daten aus dem Request Body
   const { username, password } = req.body;
+
   // überprüfen, ob username und password im request.body vorhanden sind
   if (!username || !password){
    return res.status(400).send({message: "Required field is missing!"});
+  }
+
+  // check if username is between 3 and 20 characters
+  if (username.length < 3 || username.length > 20){
+    return res.status(400).send({message: "Username must be between 3 and 20 characters!"});
+  }
+
+ // check if password is between 6 and 60 characters
+  if (password.length < 6 || password.length > 60){
+    return res.status(400).send({message: "Password must be between 6 and 60 characters!"});
   }
 
   //Error Handling

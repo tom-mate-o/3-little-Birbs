@@ -15,7 +15,7 @@ export async function deleteFriendcodeFromDatabaseConfig(userId, friendcodeToDel
         const response = await axios(config);
         console.log(response.data.message);
         if (response.status === 201) {
-            showNotifications("Friend deleted successfully from DB!", "success");
+            showNotifications("You're not Friends anymore... 😥", "success");
         } else {
             showNotifications("Error while deleting friend!", "error");
         }

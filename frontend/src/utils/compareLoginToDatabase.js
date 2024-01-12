@@ -14,9 +14,11 @@ export async function compareLoginToDatabase(data){
         }
         const response = await axios(config);
         console.log(response.data);
-        showNotifications("Login successful! 🐦", "success");
-
-        return response.data; // Comparing User Data to DB was successful
+        if (response.status === 200) {
+            showNotifications("Login successful! 🐦", "success");
+            return response.data; // Comparing User Data to DB was successful
+        }
+        
 
     }
     catch (error){
@@ -25,6 +27,8 @@ export async function compareLoginToDatabase(data){
             showNotifications("Password is incorrect!", "warn");
         } else if (error.response.status === 404){
             showNotifications("User does not exist!", "warn");
+        } else if (error.response.status === 400){
+            showNotifications("Length of Username and/or \nPassword is incorrect!", "warn");
         } else {
             showNotifications("Login failed!", "error");
         }

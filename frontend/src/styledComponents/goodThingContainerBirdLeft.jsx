@@ -20,10 +20,13 @@ export const GoodThingContainerBirdLeft = styled.div`
     justify-items: center;
     align-items: center;
     text-align: center;
+
+
+    p{
+        max-width: 25ch;
+        word-wrap: break-word;
+    }
     
-
-
-
 
     .birdImg{
         height: 107px;

@@ -172,9 +172,9 @@ export default function Register() {
 
       <div className="introtext">
         <Boxtitle>
-          Don't Have an Account yet?
+          Already have an Account?
           <br />
-          <NavLink to="/register">Click here to sign up!</NavLink>
+          <NavLink to="/login">Click here to Login!</NavLink>
         </Boxtitle>
       </div>
     </div>

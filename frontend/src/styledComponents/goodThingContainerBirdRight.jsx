@@ -21,6 +21,11 @@ export const GoodThingContainerBirdRight = styled.div`
     align-items: center;
     text-align: center;
 
+    p{
+        max-width: 25ch;
+        word-wrap: break-word;
+    }
+
 
     .birdImg{
         height: 107px;

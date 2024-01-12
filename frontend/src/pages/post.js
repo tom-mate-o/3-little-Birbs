@@ -62,10 +62,10 @@ export default function Post() {
           <div>
             <img className="birdImg" src={birbImages[post.birb1]} alt="birb1"></img>
           </div>
-          <div>{post.goodthing1}</div>
+          <div><p>{post.goodthing1}</p></div>
         </GoodThingContainerBirdLeft>
         <GoodThingContainerBirdRight>
-          <div>{post.goodthing2}</div>
+          <div><p>{post.goodthing2}</p></div>
           <div>
             <img className="birdImg" src={birbImages[post.birb2]} alt="birb2"></img>
           </div>
@@ -74,7 +74,7 @@ export default function Post() {
           <div>
             <img className="birdImg" src={birbImages[post.birb3]} alt="birb3"></img>
           </div>
-          <div>{post.goodthing3}</div>
+          <div><p>{post.goodthing3}</p></div>
         </GoodThingContainerBirdLeft>
 
         <Boxtitle>a message from {post.poster}</Boxtitle>
