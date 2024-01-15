@@ -1,8 +1,13 @@
+//settings.js
+
 import React from "react";
 import { useEffect } from "react";
+import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { TbDoorExit } from "react-icons/tb";
 import {jwtDecode} from 'jwt-decode';
+import showNotifications from "../components/showNotifications/showNotifications";
+import updateUserInDatabase from "../utils/updateUserInDatabase";
 
 //Styled Components
 import { Title } from "../styledComponents/title";
@@ -14,6 +19,7 @@ import { InputField } from "../styledComponents/inputField";
 import { Boxtitle } from "../styledComponents/boxtitle";
 import { WideButton } from "../styledComponents/wideButton";
 import { birbImages } from "../assets/birbs/birbsimgs";
+import { Button } from "../styledComponents/button";
 
 //Costum Hooks
 import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
@@ -46,23 +52,70 @@ export default function Settings({handleLogout}) {
     const avatarUrl = user ? user.avatarUrl : null;
     const username = user ? user.username : null;
 
+    const newUsername = useRef();
+    const password1 = useRef();
+    const password2 = useRef();
+    const notificationTime = useRef();
+    const newAvatarUrl = useRef();
+
+    function saveSettings(event) {
+      event.preventDefault();
+      console.log("saveSettings");
+      console.log(newUsername.current.value);
+      console.log(password1.current.value);
+      console.log(password2.current.value);
+      console.log(value);
+      console.log(notificationTime.current.value);
+      console.log(newAvatarUrl.current.files[0]);
+      console.log(decodedToken.id);
+
+      if (password1.current.value !== password2.current.value) {
+        showNotifications("Passwords do not match!", "error");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('newAvatar', newAvatarUrl.current.files[0]);
+      formData.append('newUsername', newUsername.current.value);
+      formData.append('newPassword', password1.current.value);
+      formData.append('theme', value);
+      formData.append('notificationTime', notificationTime.current.value);
+      formData.append('userId', decodedToken.id);
+
+      updateUserInDatabase(formData);
+
+    }
+
+
   return (
     <div>
       <Title>Personal Settings</Title>
 
       <WideButton onClick={handleClickLogoutButton}><span>Logout <TbDoorExit /></span></WideButton>
      
+
+
       <ProfileInfoGrid>
       <div className="avatar"> <img className="writeImg" src={avatarUrl} alt={username}></img></div>
     <div className="username">{username}</div>
-    <div className="button">change your<br/>Profile Picture</div>
+    <input
+            style={{ display: "none" }}
+            type="file"
+            id="file"
+            name="avatar"
+            ref={newAvatarUrl}
+          />
+          <label htmlFor="file">
+            <Button className="button">change your<br/>Profile Picture</Button>
+          </label>
     </ProfileInfoGrid>
 
       <SubTitle>Username</SubTitle>
         <MainContainer>
             <Boxtitle>new username</Boxtitle>
             <InputField>
-                <input className=""></input>
+                <input className="" ref={newUsername} minLength="3"
+              maxLength="20"></input>
              </InputField>
         </MainContainer>
 
@@ -70,13 +123,19 @@ export default function Settings({handleLogout}) {
         <MainContainer>
             <Boxtitle>new password</Boxtitle>
             <InputField>
-                <input  type="password" className=""></input>
+                <input  type="password" className="" ref={password1} minLength="6"
+              maxLength="60"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+              title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"></input>
              </InputField>
         </MainContainer>
         <MainContainer>
             <Boxtitle>repeat new password</Boxtitle>
             <InputField>
-                <input type="password" className=""></input>
+                <input type="password" className="" ref={password2} minLength="6"
+              maxLength="60"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+              title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"></input>
              </InputField>
         </MainContainer>
 
@@ -108,14 +167,11 @@ export default function Settings({handleLogout}) {
     },
   }}
 >
-  <MenuItem disabled value={0}>
+  <MenuItem disabled value={null}>
     Choose a Theme
   </MenuItem>
-  <MenuItem value={1}>Red</MenuItem>
-  <MenuItem value={2}>Black</MenuItem>
-  <MenuItem value={3}>Blue</MenuItem>
-  <MenuItem value={4}>Green</MenuItem>
-  <MenuItem value={5}>Yellow</MenuItem>
+  <MenuItem value={"sunriseSunset-theme"}>Sunrise/Sunset Theme</MenuItem>
+  <MenuItem value={"dracula-theme"}>Dracula Theme</MenuItem>
 </Select>
         </MainContainer>
 
@@ -123,11 +179,11 @@ export default function Settings({handleLogout}) {
         <MainContainer>
             <Boxtitle>select a time for your 3LB-Notification</Boxtitle>
             <InputField>
-                <input type="time"></input>
+                <input type="time" ref={notificationTime}></input>
              </InputField>
         </MainContainer>
 
-        <WideButton>Save the Settings</WideButton>
+        <WideButton onClick={saveSettings}>Save the Settings</WideButton>
 
 
     </div>

@@ -36,7 +36,6 @@ const Post = require("./models/postSchema");
 
 const User = require("./models/userSchema");
 
-
 // Routes ----------------------------------------------
 // POST Route for Post
 
@@ -88,7 +87,7 @@ app.get("/health-check", (req, res) => {
 
 //--------------------------------------------------------------------------------
 // Middleware - Multipart Form Data ----------------------------------------------
-const path = require('path');
+const path = require("path");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -105,8 +104,7 @@ const avatar = multer({ storage });
 // Middleware für multipart formdata
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Fügen Sie diese Zeile hier hinzu
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Fügen Sie diese Zeile hier hinzu
 
 // POST Route for Register ------------------------------------------------------
 
@@ -130,7 +128,9 @@ app.post("/api/register", avatar.single("avatar"), async (req, res) => {
 
     let avatarUrl = null;
     if (req.file) {
-      avatarUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+      avatarUrl = `${req.protocol}://${req.get("host")}/uploads/${
+        req.file.filename
+      }`;
     }
     console.log(avatarUrl);
 
@@ -157,14 +157,88 @@ app.post("/api/register", avatar.single("avatar"), async (req, res) => {
   }
 });
 
+// PUT Route for Userdata Update ------------------------------------------------------
+app.put("/api/updateUser", avatar.single("newAvatar"), async (req, res) => {
+  try {
+    const newUsername = req.body.newUsername;
+    const newPassword = req.body.newPassword;
+    const theme = req.body.theme;
+    const notificationTime = req.body.notificationTime;
+    const userId = req.body.userId;
+
+    let newAvatarUrl = null;
+    if (req.file) {
+      newAvatarUrl = `${req.protocol}://${req.get("host")}/uploads/${
+        req.file.filename
+      }`;
+    }
+    
+
+    const newHashedPassword = await bcrypt.hash(newPassword, 10);
+    console.log(newHashedPassword);
+
+    let updateObj = {};
+
+    if (newUsername) {
+      if (newUsername.length < 3 || newUsername.length > 20) {
+        return res.status(401).send({ message: "Username must be between 3 and 20 characters!" });
+      }
+      updateObj.username = newUsername;
+    }
+
+    if (newPassword) {
+      const passwordPattern = new RegExp("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}");
+      if (!passwordPattern.test(newPassword)) {
+        return res.status(400).send({ message: "Password does not meet the requirements!" });
+      }
+      const newHashedPassword = await bcrypt.hash(newPassword, 10);
+      updateObj.hashedPassword = newHashedPassword;
+    }
+
+    if (newAvatarUrl) {
+      updateObj.avatarUrl = newAvatarUrl;
+    }
+
+    if (theme && theme !== "0") {
+      updateObj["userSettings.0.theme"] = theme;
+    }
+
+    if (notificationTime) {
+      updateObj["userSettings.1.notificationTime"] = notificationTime;
+    }
+
+    const existingUser = await User.findOne({ username: newUsername });
+  if (existingUser) {
+    return res.status(409).send({ message: "Username already taken!" });
+  }
+
+    const updatedUser = await User.findOneAndUpdate({ id: userId }, updateObj, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).send({ message: "User not found!" });
+    }
+
+    
+
+
+    res
+      .status(201)
+      .send({ message: "User updated successfully!", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating user", error);
+    res.status(500).send({ message: "Error updating user" });
+  }
+});
+
 // GET Route for Userdata ------------------------------------------------------
 app.get("/api/getuserdata", async (req, res) => {
-  try{
+  try {
     const getUserData = await User.find({});
     console.log("Userdata loaded!");
     res.status(200).send({ message: getUserData, data: getUserData });
-
-  }catch{
+  } catch {
     res.status(500).send({ message: "Error while loading Userdata!" });
   }
-  });
+});
