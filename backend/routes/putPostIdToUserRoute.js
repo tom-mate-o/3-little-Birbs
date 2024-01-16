@@ -7,7 +7,9 @@ router.put("/", async (req, res) => {
         const postId = req.body.id;
         const reciever = req.body.selectedFriendName;
 
-        const awaitPut = await User.findOneAndUpdate({ username: reciever }, { $push: { recievedPostsIds: postId } });
+        const postToAdd = { id: postId, read: false };
+
+        const awaitPut = await User.findOneAndUpdate({ username: reciever }, { $push: { recievedPostsIds: postToAdd } });
         res.status(201).send({ message: "Post added successfully to User in DB!" });
     } catch (error) {
         console.error("Error adding friend to DB", error);

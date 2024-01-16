@@ -51,7 +51,8 @@ export default function Messages() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const data = await getPostsWithMachtingIDFromDatabaseConfig(messages);
+      const messageIds = messages.map(message => message.id);
+      const data = await getPostsWithMachtingIDFromDatabaseConfig(messageIds);
       setPosts(data);
     };
   
