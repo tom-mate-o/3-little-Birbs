@@ -77,6 +77,10 @@ app.use("/api/getPostWithId", getPostWithIdRoute);
 const deleteFriendsRoute = require("./routes/deleteFriendsRoute"); // Pfad zur Delete-Route
 app.use("/api/deleteFriends", deleteFriendsRoute);
 
+// GET Route um MessagesCount aus Userdata zu laden
+const getMessagesCountRoute = require("./routes/getMessagesCountRoute"); // Pfad zur Get-Route
+app.use("/api/getMessagesCount", getMessagesCountRoute);
+
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`);
 });

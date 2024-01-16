@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: [{theme: "sunriseSunset-theme"}, {notificationTime: "19:00"}],
     },
+    messagesCount: {
+      type: String,
+      default: "0",
+    },
   });
   
   const User = mongoose.model("UserCollection", userSchema); //"UserCollection" ist the name of the collection in the database
