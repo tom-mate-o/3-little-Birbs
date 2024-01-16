@@ -6,7 +6,7 @@ router.get("/", async (req, res) => {
     try {
         // extract User-ID from Token
         const userId = req.headers['decoded-token'];
-        console.log("userId:", userId);
+    
 
         // search for User in DB
         const user = await User.findOne({id: userId});
@@ -16,9 +16,12 @@ router.get("/", async (req, res) => {
 
         // get Friend-IDs from User
         const friendIds = user.friendIds;
+
+        // extract friendcodes from friendIds
+        const friendcodes = friendIds.map(friend => friend.friendcode);
         
         // search the User for each Friend-ID
-        const friends = await User.find({ "friendcode": { $in: friendIds } });
+        const friends = await User.find({ "friendcode": { $in: friendcodes } });
 
         // get the Username for each Friend
         const friendUsernames = friends.map(friend => friend.username);

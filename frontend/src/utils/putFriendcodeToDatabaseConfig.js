@@ -4,14 +4,21 @@ import showNotifications from '../components/showNotifications/showNotifications
 export async function putFriendcodeToDatabaseConfig(friendCode, userId, friendCodeToAdd) {
     try{
 
-        const config = {
+        const data = {
+            friendCode: friendCode,
+            userId: userId,
+            friendCodeToAdd: friendCodeToAdd
+          };
+          
+          const config = {
             method: 'put',
             url: 'http://localhost:8080/api/putFriends',
             headers: {
-                'Content-Type': 'application/json'
+              'Content-Type': 'application/json'
             },
-            data: JSON.stringify(friendCode, userId, friendCodeToAdd)
-        }
+            data: JSON.stringify(data)
+          }
+          
         const response = await axios(config);
         console.log(response.data.message);
         showNotifications("Friend added!", "success")

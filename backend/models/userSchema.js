@@ -42,10 +42,20 @@ const userSchema = new mongoose.Schema({
         default: false,
       }
     }],
-    friendIds: {
-        type: Array,
-        default: [],
+    friendIds: [{
+      friendcode: {
+        type: String,
+        required: true,
       },
+      read: {
+        type: Boolean,
+        default: false,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      }
+    }],
     userSettings: {
         type: Array,
         default: [{theme: "sunriseSunset-theme"}, {notificationTime: "19:00"}],

@@ -67,8 +67,8 @@ useEffect(() => {
 const friendCodeToAdd = useRef(null);
 
 async function addFriend() {
-  const success = await putFriendcodeToDatabaseConfig({ friendCode: friendcode, userId: decodedToken.id, friendIdtoAdd: friendCodeToAdd.current.value.toUpperCase() });
 
+const success = await putFriendcodeToDatabaseConfig(friendcode, decodedToken.id, friendCodeToAdd.current.value.toUpperCase());
   if (success) {
     const newFriends = await getFriends(decodedToken.id);
     setFriends(newFriends);
@@ -144,7 +144,7 @@ async function deleteFriend(event, friend) {
   {friends.map((friend, index) => (
     <React.Fragment key={index}>
       <div className="avatar">
-        <img className="writeImg" src={friend.avatarUrl || birbImages.noavatar } alt={friend.username} />
+        <img className="writeImg" src={friend.avatar || birbImages.noavatar } alt={friend.username} onError={(e)=>{e.target.onerror = null; e.target.src=birbImages.noavatar}} />
       </div>
       <div className="name">{friend.username}</div>
 

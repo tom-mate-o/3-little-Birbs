@@ -5,16 +5,17 @@ const User = require('../models/userSchema');
 router.put("/", async (req, res) => {
     try {
         const userId = req.body.userId;
-        const friendCodeToDelte = req.body.friendcodeToDelete;
-        console.log("userId:", userId);
-        console.log("friendCodeToDelte:", friendCodeToDelte);
+        const friendCodeToDelete = req.body.friendcodeToDelete;
+
     
-    if (!userId || !friendCodeToDelte) {
+    if (!userId || !friendCodeToDelete) {
         return res.status(400).send({ message: "Something went wrong!" });
     }
 
-    const awaitDelte = await User.findOneAndUpdate({ id: userId }, { $pull: { friendIds: friendCodeToDelte } });
-    res.status(201).send({ message: "Friend deleted successfully from DB!" });
+    const awaitDelete = await User.findOneAndUpdate(
+        { id: userId }, 
+        { $pull: { friendIds: { friendcode: friendCodeToDelete } } }
+      );    res.status(201).send({ message: "Friend deleted successfully from DB!" });
     }
     catch (error) {
         console.error("Error deleting friend from DB", error);

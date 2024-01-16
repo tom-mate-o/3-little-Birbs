@@ -16,7 +16,7 @@ export default async function updateUserInDatabase(dataToUpdate) {
             data: dataToUpdate,
         };
         const response = await axios(config);
-        console.log(response.data);
+    
         if (response.status === 201){
             showNotifications("Update Userdata successful!", "success");
         }

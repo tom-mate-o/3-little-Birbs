@@ -60,14 +60,6 @@ export default function Settings({handleLogout}) {
 
     function saveSettings(event) {
       event.preventDefault();
-      console.log("saveSettings");
-      console.log(newUsername.current.value);
-      console.log(password1.current.value);
-      console.log(password2.current.value);
-      console.log(value);
-      console.log(notificationTime.current.value);
-      console.log(newAvatarUrl.current.files[0]);
-      console.log(decodedToken.id);
 
       if (password1.current.value !== password2.current.value) {
         showNotifications("Passwords do not match!", "error");
