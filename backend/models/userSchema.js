@@ -32,10 +32,16 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: false,
     },
-    recievedPostsIds: {
-      type: Array,
-      default: [],
-    },
+    recievedPostsIds: [{
+      id: {
+        type: String,
+        required: true,
+      },
+      read: {
+        type: Boolean,
+        default: false,
+      }
+    }],
     friendIds: {
         type: Array,
         default: [],
