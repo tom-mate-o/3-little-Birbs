@@ -103,7 +103,7 @@ export default function Notifications({ notifications, setNotifications }) {
       );
     })
   ) : (
-    <><img className="noMessages" src={birbImages.nomessages} alt="no notifications" /><h3>No Notifications</h3></>
+    <><img className="noMessages" src={birbImages.nomessages} alt="no notifications" /><h3>no notifications</h3></>
   )}
 </MainContainer>
     </div>

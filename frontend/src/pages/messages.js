@@ -81,9 +81,9 @@ export default function Messages() {
       </Title>
 
       <MainContainer>
-      {messages && messages.length > 0 ? (
-  messages.map((message, index) => {
-      {posts.slice().reverse().map((post, index) => (
+  {messages && messages.length > 0 ? (
+    messages.map((message, index) => {
+      return posts.slice().reverse().map((post, index) => (
         <MessageButton key={index}>
           <NavLink to={`/post/${post.id}`}>
             <p><b>{post.poster}</b> on <i>{format(new Date(post.date), 'MMMM do \'at\' HH:mm')}</i></p>
@@ -97,17 +97,15 @@ export default function Messages() {
             </MessageContainer>
           </NavLink>
         </MessageButton>
-      ))}
+      ));
     })
-    ) : (
-      <>
-        <img className="noMessages" src={birbImages.nomessages} alt="no messages" />
-        <h3>no messages</h3>
-      </>
-    )}
-
-        
-      </MainContainer>
+  ) : (
+    <>
+      <img className="noMessages" src={birbImages.nomessages} alt="No notifications" />
+      <h3>no messages</h3>
+    </>
+  )}
+</MainContainer>
     </div>
   );
 }
