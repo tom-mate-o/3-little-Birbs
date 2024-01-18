@@ -81,7 +81,8 @@ export default function Messages() {
       </Title>
 
       <MainContainer>
-
+      {messages && messages.length > 0 ? (
+  messages.map((message, index) => {
       {posts.slice().reverse().map((post, index) => (
         <MessageButton key={index}>
           <NavLink to={`/post/${post.id}`}>
@@ -97,6 +98,13 @@ export default function Messages() {
           </NavLink>
         </MessageButton>
       ))}
+    })
+    ) : (
+      <>
+        <img className="noMessages" src={birbImages.nomessages} alt="no messages" />
+        <h3>no messages</h3>
+      </>
+    )}
 
         
       </MainContainer>

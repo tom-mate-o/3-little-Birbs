@@ -199,3 +199,36 @@ p{
 .MuiPickersYear-root {
   color: var(--textOnBright);
 }
+
+@keyframes colorPulse {
+  0% { color: white; }
+  50% { color: var(--navBarIcons); }
+  100% { color: white; }
+}
+
+@keyframes ringing {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(25deg); }
+  20% { transform: rotate(-15deg); }
+  30% { transform: rotate(15deg); }
+  40% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+  60% { transform: rotate(-2deg); }
+  70% { transform: rotate(2deg); }
+  80% { transform: rotate(-1deg); }
+  90% { transform: rotate(1deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.ringing {
+  position: relative;
+  animation: ringing 2s infinite, colorPulse 2s infinite;
+}
+
+.noMessages {
+  border-radius: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  max-width: 300px;
+  width: 100%;
+}

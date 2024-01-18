@@ -9,7 +9,10 @@ import { HiOutlineBell } from "react-icons/hi";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { HiOutlineUserCircle } from "react-icons/hi";
 
-export default function Navbar() {
+export default function Navbar({isBellRed}) {
+
+
+
     return (
         <div className="navbar">
           <nav>
@@ -31,7 +34,8 @@ export default function Navbar() {
               </li>
 
               <li>
-                <NavLink to="/notifications"><HiOutlineBell/></NavLink>
+              {/* className={isBellRed ? "ringing" : ""} */}
+                <NavLink to="/notifications"><HiOutlineBell color={isBellRed ? "red" : "default"}  /></NavLink>
               </li>
 
               <li>
