@@ -13,99 +13,151 @@ import { birbImages } from "../assets/birbs/birbsimgs";
 import { HiOutlineXCircle } from "react-icons/hi";
 import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
 import { getPostsWithMachtingIDFromDatabaseConfig } from "../utils/getPostsWithMachtingIDFromDatabaseConfig";
+import updateNotificationReadInDatabase from "../utils/updateNotificationReadInDatabase";
+import { set } from "date-fns";
 
-export default function Notifications({ notifications, setNotifications }) {
+export default function Notifications(props) {
+  const {
+    notifications,
+    setNotifications,
+    setParentNotifications,
+    currentUserData,
+    handleBellColorChange,
+  } = props;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const { userData } = useMongoDBUserData();
   const [posts, setPosts] = useState([]);
+ 
+  
 
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
   const UserID = decodedToken.id;
 
-  console.log(notifications.filter((notification) => notification.id));
-
   useEffect(() => {
+    console.log('notifications updated', notifications);
     const fetchPostNotifications = async () => {
       const messageIds = notifications
         .filter((notification) => notification.id)
         .map((notification) => notification.id);
-      console.log(messageIds);
       const data = await getPostsWithMachtingIDFromDatabaseConfig(messageIds);
-      console.log(data);
       if (data && data.length > 0) {
         setPosts(data);
+      } else {
+        setPosts([]);
       }
     };
     if (notifications && notifications.length > 0) {
       fetchPostNotifications();
     }
-    console.log(posts);
+
   }, [notifications]);
 
-  console.log(posts);
 
-  // const handleShowNotification = (message, type) => {
-  //   showNotifications(message, type);
-  //   setNotifications(prevNotifications => [...prevNotifications, { id: Date.now(), message, type }]);
-  // };
+  function handleDeleteFriendCodeNotification(friendcode) {
+    updateNotificationReadInDatabase({
+      userId: UserID,
+      friendcode: friendcode,
+    }).then(() => {
+      setNotifications((currentNotifications) => currentNotifications.filter((notification) => notification.friendcode !== friendcode));
+      window.location.reload();
+    });
+  }
+  
+  function handleDeletePosterIDNotification(postId) {
+    updateNotificationReadInDatabase({
+      userId: UserID,
+      postId: postId,
+    }).then(() => {
+      setNotifications((currentNotifications) => currentNotifications.filter((notification) => notification.id !== postId));
+      window.location.reload();
+    });
+  }
+
+  useEffect(() => {
+    // Wenn es Benachrichtigungen gibt, setzen Sie isBellRed auf true
+    if (notifications.length > 0) {
+      handleBellColorChange(true);
+      
+    } else {
+      // Wenn es keine Benachrichtigungen gibt, setzen Sie isBellRed auf false
+      handleBellColorChange(false);
+      console.log('forceRender');
+    }
+  }, [notifications, handleBellColorChange]);
+
 
   return (
     <div>
       <Title>Notifications</Title>
 
       <MainContainer>
-      {notifications.length > 0 ? (
-    notifications.map((notification, index) => {
-      const user = userData.find(
-        (user) =>
-          user.id === notification.id ||
-          user.friendcode === notification.friendcode
-      );
-      const post = posts.find((post) => post.id === notification.id);
-      return (
-        <NotificationGrid key={index}>
-          <div className="avatar">
-            <img
-              className="writeImg"
-              src={
-                user
-                  ? user.avatarUrl
-                  : post
-                  ? userData.find((u) => u.id === post.posterID)?.avatarUrl
-                  : ""
-              }
-              alt={user ? user.username : post ? post.poster : ""}
-            />
-              </div>
-              <div className="time">
-                {DateTime.fromISO(
-                  user ? notification.date : post ? post.date : ""
-                )
-                  .setLocale("en")
-                  .toRelative()}
-              </div>
-              <div className="event">
-                {" "}
-                {user
-                  ? `${user.username} ${notification.message}`
-                  : post
-                  ? `${post.poster} ${notification.message}`
-                  : ""}
-              </div>
-              <div className="deleteButton">
-                <HiOutlineXCircle />
+        {notifications.length > 0 ? (
+          notifications.map((notification, index) => {
+            const user = userData.find(
+              (user) =>
+                user.id === notification.id ||
+                user.friendcode === notification.friendcode
+            );
+            const post = posts.find((post) => post.id === notification.id);
+            return (
+              <NotificationGrid key={index}>
+                <div className="avatar">
+                  <img
+                    className="writeImg"
+                    src={
+                      user
+                        ? user.avatarUrl
+                        : post
+                        ? userData.find((u) => u.id === post.posterID)
+                            ?.avatarUrl
+                        : ""
+                    }
+                    alt={user ? user.username : post ? post.poster : ""}
+                  />
                 </div>
-        </NotificationGrid>
-      );
-    })
-  ) : (
-    <><img className="noMessages" src={birbImages.nomessages} alt="no notifications" /><h3>no notifications</h3></>
-  )}
-</MainContainer>
+                <div className="time">
+                  {DateTime.fromISO(
+                    user ? notification.date : post ? post.date : ""
+                  )
+                    .setLocale("en")
+                    .toRelative()}
+                </div>
+                <div className="event">
+                  {" "}
+                  {user
+                    ? `${user.username} ${notification.message}`
+                    : post
+                    ? `${post.poster} ${notification.message}`
+                    : ""}
+                </div>
+                <div className="deleteButton">
+                  <HiOutlineXCircle
+                    onClick={() =>
+                      post
+                        ? handleDeletePosterIDNotification(post.id)
+                        : handleDeleteFriendCodeNotification(user.friendcode)
+                    }
+                  />
+                </div>
+              </NotificationGrid>
+            );
+          })
+        ) : (
+          <>
+            <img
+              className="noMessages"
+              src={birbImages.nomessages}
+              alt="no notifications"
+            />
+            <h3>no notifications</h3>
+          </>
+        )}
+      </MainContainer>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { HiOutlineBell } from "react-icons/hi";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { HiOutlineUserCircle } from "react-icons/hi";
 
-export default function Navbar({isBellRed}) {
+export default function Navbar({isBellRed, handleIconClick}) {
 
 
 
@@ -18,28 +18,28 @@ export default function Navbar({isBellRed}) {
           <nav>
             <ul>
               <li>
-                <NavLink to="/feed"><HiOutlineHome/></NavLink>
+                <NavLink to="/feed"><HiOutlineHome onClick={handleIconClick}/></NavLink>
               </li>
 
               <li>
-                <NavLink to="/messages"><HiOutlineMail/></NavLink>
+                <NavLink to="/messages"><HiOutlineMail onClick={handleIconClick}/></NavLink>
               </li>
               
               <li>
-                <NavLink to="/calendararchive"><HiOutlineCalendar/></NavLink>
+                <NavLink to="/calendararchive"><HiOutlineCalendar onClick={handleIconClick}/></NavLink>
               </li>
 
               <li>
-                <NavLink to="/addafriend"><HiOutlineUserAdd/></NavLink>
+                <NavLink to="/addafriend"><HiOutlineUserAdd onClick={handleIconClick}/></NavLink>
               </li>
 
               <li>
-              {/* className={isBellRed ? "ringing" : ""} */}
-                <NavLink to="/notifications"><HiOutlineBell color={isBellRed ? "red" : "default"}  /></NavLink>
+              
+                <NavLink to="/notifications"><HiOutlineBell onClick={handleIconClick} className={isBellRed ? "ringing" : ""}  /></NavLink>
               </li>
 
               <li>
-                <NavLink to="/settings"><HiOutlineUserCircle/></NavLink>
+                <NavLink to="/settings"><HiOutlineUserCircle onClick={handleIconClick}/></NavLink>
               </li>
 
             </ul>

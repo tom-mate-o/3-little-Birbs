@@ -140,6 +140,7 @@ export default function NewPost() {
       public: true,
       private: false,
       poster: username,
+      posterID: decodedToken.id,
       reciever: "Public",
       birb1: birbImageName1,
       goodthing1: goodthing1.current.value,

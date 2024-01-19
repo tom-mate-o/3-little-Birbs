@@ -24,6 +24,7 @@ import showNotifications from "./components/showNotifications/showNotifications"
 
 // costum hooks
 import useMongoDBUserData from "./costumHooks/useMongoDBUserData";
+import { set } from "date-fns";
 
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [isBellRed, setIsBellRed] = useState(false);
+  const [currentUserData, setCurrentUserData] = useState(null)// Benötigt für die Benachrichtigungen
+  const [iconClicked, setIconClicked] = useState(false);
 
   const token = localStorage.getItem("token");
   let UserID;
@@ -40,9 +43,14 @@ function App() {
     UserID = decodedToken?.id;
   }
 
-  const {userData} = useMongoDBUserData();
+  const {userData, refetch} = useMongoDBUserData();
 
   useEffect(() => {
+    refetch();
+  }, [iconClicked]);
+
+  useEffect(() => {
+    
     if (userData) {
       // Finde die Daten des eingeloggten Benutzers
       const currentUserData = userData.find(user => user.id === UserID);
@@ -77,11 +85,13 @@ function App() {
       
         // Setze die neuen Benachrichtigungen
         setNotifications(newNotifications);
+        setCurrentUserData(currentUserData);
       }
     }
-  }, [userData, loggedIn, UserID]); // Fügen UserID zu den Abhängigkeiten hinzu, damit der useEffect-Hook ausgeführt wird, wenn sich UserID ändert
+  }, [userData, loggedIn, UserID, iconClicked]); // Abhängigkeit
 
   const handleLogout = () => {
+    setNotifications([]);
     setLoggedIn(false);
     setIsBellRed(false);
     localStorage.removeItem("token");
@@ -99,6 +109,17 @@ function App() {
       setLoggedIn(true);
     }
   },[]);
+
+  function handleBellColorChange(value) {
+    setIsBellRed(value);
+  }
+
+  const handleIconClick = () => {
+    setIconClicked(!iconClicked);
+
+  };
+
+
 
   return (
     <div className="App">
@@ -118,7 +139,7 @@ function App() {
             <Route path="/messages" element={loggedIn ? <Messages /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
             <Route path="/calendararchive" element={loggedIn ? <CalendarArchive /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
             <Route path="/addafriend" element={loggedIn ? <AddAFriend /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
-            <Route path="/notifications" element={loggedIn ? <Notifications notifications={notifications} setNotifications={setNotifications} /> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
+            <Route path="/notifications" element={loggedIn ? <Notifications notifications={notifications} setNotifications={setNotifications} setParentNotifications={setNotifications} currentUserData={currentUserData} handleBellColorChange={handleBellColorChange}/> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
             <Route path="/settings" element={loggedIn ? <Settings handleLogout={handleLogout}/> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
             <Route path="/post/:postId" element={loggedIn ? <Post handleLogout={handleLogout}/> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
             <Route path="/login" element={<Login loggedIn={loggedIn} handleLogin={handleLogin}/>}  />
@@ -128,7 +149,7 @@ function App() {
         </div>
 
 {/* -------NAVBAR------- */}
-      <Navbar key={UserID} isBellRed={isBellRed}/>
+      <Navbar key={UserID} isBellRed={isBellRed} handleIconClick={handleIconClick}/>
         
       </BrowserRouter>
     </div>

@@ -65,6 +65,10 @@ app.use("/api/putFriends", putFriendsRoute);
 const putPostIdToUserRoute = require("./routes/putPostIdToUserRoute"); // Pfad zur Put-Route
 app.use("/api/putPostIdToUser", putPostIdToUserRoute);
 
+// PUT Route um read auf true in friendIds + recievedPostsIds in usercollection zu setzen
+const updateReadNotificationRoute = require("./routes/updateReadNotificationRoute"); // Pfad zur Put-Route
+app.use("/api/updateReadNotification", updateReadNotificationRoute);
+
 // POST Route um übereinstimmende Posts mit RecievedPostIDs aus Userdata zu finden
 const getMatchingPostsMessagesRoute = require("./routes/getMatchingPostsMessagesRoute"); // Pfad zur Post-Route
 app.use("/api/getMatchingPostsMessages", getMatchingPostsMessagesRoute);

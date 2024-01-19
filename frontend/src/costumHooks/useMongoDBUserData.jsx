@@ -21,5 +21,5 @@ export default function useMongoDBUserData() {
         }
     }
 
-    return { userData, setUserData };
+    return { userData, setUserData,  refetch: loadUserDataFromDatabase  };
 }

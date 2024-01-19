@@ -6,6 +6,7 @@ const postSchema = new mongoose.Schema({
     public: Boolean,
     private: Boolean,
     poster: String,
+    posterID: String,
     reciever: String,
     birb1: String,
     goodthing1: 

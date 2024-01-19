@@ -115,6 +115,7 @@ export default function PostToAFriend() {
       public: false,
       private: true,
       poster: username,
+      posterID: decodedToken.id,
       reciever: selectedFriendName,
       birb1: newbirbImageName1,
       goodthing1: goodthing1Ref.current.value,
