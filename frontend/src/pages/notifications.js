@@ -63,7 +63,7 @@ export default function Notifications(props) {
       friendcode: friendcode,
     }).then(() => {
       setNotifications((currentNotifications) => currentNotifications.filter((notification) => notification.friendcode !== friendcode));
-      setTimeout(refetch, 1500);
+      refetch();
     });
   }
   
@@ -73,7 +73,7 @@ export default function Notifications(props) {
       postId: postId,
     }).then(() => {
       setNotifications((currentNotifications) => currentNotifications.filter((notification) => notification.id !== postId));
-     setTimeout(refetch, 1500);
+     refetch();
     });
   }
 
