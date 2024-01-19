@@ -29,7 +29,7 @@ export default function Notifications(props) {
     window.scrollTo(0, 0);
   }, []);
 
-  const { userData } = useMongoDBUserData();
+  const { userData, refetch } = useMongoDBUserData();
   const [posts, setPosts] = useState([]);
  
   
@@ -39,7 +39,6 @@ export default function Notifications(props) {
   const UserID = decodedToken.id;
 
   useEffect(() => {
-    console.log('notifications updated', notifications);
     const fetchPostNotifications = async () => {
       const messageIds = notifications
         .filter((notification) => notification.id)
@@ -64,7 +63,7 @@ export default function Notifications(props) {
       friendcode: friendcode,
     }).then(() => {
       setNotifications((currentNotifications) => currentNotifications.filter((notification) => notification.friendcode !== friendcode));
-      window.location.reload();
+      refetch();
     });
   }
   
@@ -74,7 +73,7 @@ export default function Notifications(props) {
       postId: postId,
     }).then(() => {
       setNotifications((currentNotifications) => currentNotifications.filter((notification) => notification.id !== postId));
-      window.location.reload();
+      refetch();
     });
   }
 
@@ -86,7 +85,6 @@ export default function Notifications(props) {
     } else {
       // Wenn es keine Benachrichtigungen gibt, setzen Sie isBellRed auf false
       handleBellColorChange(false);
-      console.log('forceRender');
     }
   }, [notifications, handleBellColorChange]);
 

@@ -36,6 +36,7 @@ export default function Settings({handleLogout}) {
 
     function handleClickLogoutButton() {
       handleLogout();
+      //navigate to login page
     }
 
     const { userData, setUserData } = useMongoDBUserData([]);
