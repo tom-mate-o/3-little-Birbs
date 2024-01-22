@@ -49,6 +49,10 @@ app.use("/api/post", postRoute);
 const getPoolRoute = require("./routes/getPoolRoute"); // Pfad zur Get-Route
 app.use("/api/getPool", getPoolRoute);
 
+// POST Route for Posts einer bestimmten User ID
+const getPostsFromUserIdRoute = require("./routes/getPostsFromUserIdRoute"); // Pfad zur POST-Route
+app.use("/api/getPostsFromUserId", getPostsFromUserIdRoute);
+
 // POST Route for Login
 const userController = require("./controller/userController");
 app.post("/api/login", userController.login);

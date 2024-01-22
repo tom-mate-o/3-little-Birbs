@@ -1,74 +1,118 @@
+import '../Calendar.css';
 import * as React from 'react';
-import { useEffect } from "react";
-import dayjs, { Dayjs } from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { createTheme, ThemeProvider } from '@mui/material';
-
+import { useEffect, useState } from "react";
+import dayjs from 'dayjs';
+import Calendar from 'react-calendar';
+import { format } from 'date-fns';
+import { jwtDecode } from 'jwt-decode';
+import { birbImages } from "../assets/birbs/birbsimgs";
+import { MessageButton } from '../styledComponents/messageButton';
+import { NavLink } from 'react-router-dom';
+import { MessageContainer } from '../styledComponents/messageContainer';
+import { Boxtitle } from '../styledComponents/boxtitle';
 
 import { Title } from "../styledComponents/title";
 import { MainContainer } from "../styledComponents/mainContainer";
 
-const theme = createTheme({
-  palette: {
-    primary: { main: '#B56576' },
-    secondary: { main: '#B56576' }, // Sekundärfarbe
-    error: { main: '#B56576' }, // Fehlerfarbe
-    warning: { main: '#B56576' }, // Warnungsfarbe
-    info: { main: '#B56576' }, // Infofarbe
-    success: { main: '#B56576' }, // Erfolgsfarbe
-    background: { default: '#B56576' }, // Hintergrundfarbe
-    text: { primary: '#355070' }, // Textfarbe
-    textInContainer: { primary: '#000000' }, // Textfarbe
-  },
-  typography: {
-    fontFamily: 'var(--fontFamily)', // Schriftfamilie
-    fontSize: 20, // Schriftgröße
-    fontWeightLight: 300, // Leichtes Schriftgewicht
-    fontWeightRegular: 400, // Normales Schriftgewicht
-    fontWeightMedium: 500, // Mittleres Schriftgewicht
-    fontWeightBold: 700, // Fettes Schriftgewicht
-  },
-  spacing: 8, // Basisabstand
-});
+import { getPostFromUserIDFromDatabaseConfig } from '../utils/getPostFromUserIDFromDatabaseConfig';
+
 
 export default function CalendarArchive() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [userPosts, setUserPosts] = useState([]);
+  const [highlightedDays, setHighlightedDays] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedPosts, setSelectedPosts] = useState([]);
+
+  const token = localStorage.getItem("token");
+  const decodedToken = jwtDecode(token);
+
+  const getPosts = async () => {
+    const response = await getPostFromUserIDFromDatabaseConfig(decodedToken.id);
+    const posts = response.posts;
+    setUserPosts(posts);
+    
+    if (Array.isArray(posts)) {
+      const postDays = posts.map(post => post.date);
+      setHighlightedDays(postDays);
+    }
   
-    const [value, setValue] = React.useState(dayjs('2022-04-17'));
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  if (isLoading) {
+    return <MainContainer>
+    <div><img className="birdImg" src={birbImages.pecking_animation} alt="birb1"></img>...Loading...</div>
+  </MainContainer>
+  }
+
+  const handleDateChange = (date) => {
+    const dayjsDate = dayjs(date);
+    setSelectedDate(dayjsDate);
+    
+    const postsOnSelectedDate = userPosts.filter(post => 
+      dayjs(post.date).format('YYYY-MM-DD') === dayjsDate.format('YYYY-MM-DD')
+    );
+  
+    setSelectedPosts(postsOnSelectedDate);
+
+  };
 
   return (
     <div>
-    <Title>
-    Calendar
-    <br />
-    Archive
-  </Title>
+      <Title>
+        Calendar
+        <br />
+        Archive
+      </Title>
 
-    <MainContainer>
+      <MainContainer>
+      <Calendar onChange={handleDateChange}
+  tileClassName={({ date, view }) => {
+    if (view === 'month') {
+      const highlight = highlightedDays.find(dDate => {
+        return dayjs(dDate).format('YYYY-MM-DD') === dayjs(date).format('YYYY-MM-DD');
+      });
+      if (highlight) {
+        return 'highlight';
+      }
+    }
+  }}
+/>
 
-    <ThemeProvider theme={theme}>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateCalendar fixedWeekNumber={5}
-      style={{
-        backgroundColor: 'var(--goodThingContainer)',
-      borderRadius: '15px',
-      padding: '10px',
-      margin: '10px',
-      width: '100%',
-      height: "auto",
+      </MainContainer>
+
+      <MainContainer>
+      {selectedPosts.length > 0 ? (
+  selectedPosts.map((post, index) => (
+    
+    <MessageButton key={index}>
+      <NavLink to={`/post/${post.id}`}>
+      <p><i>{format(new Date(post.date), 'MMMM do \'at\' HH:mm')}</i></p>
+        <MessageContainer>
+          <div className="birbsInARow">
+            <img className="birdImg" src={birbImages[post.birb1]} alt={post.birb1}></img>
+            <img className="birdImg" src={birbImages[post.birb2]} alt={post.birb2}></img>
+            <img className="birdImg" src={birbImages[post.birb3]} alt={post.birb3}></img>
+          </div>
+        </MessageContainer>
+      </NavLink>
+    </MessageButton>
+    
+  ))
+) : (
+  <Boxtitle>No posts found for this date.</Boxtitle>
+)}
+  </MainContainer>
+      </div>
       
-
-      }}
-      />
-    </LocalizationProvider>
-    </ThemeProvider>
-  
-
-        </MainContainer>
-        </div>
-);
-}
+    );
+  }

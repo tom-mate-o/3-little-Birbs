@@ -186,7 +186,7 @@ p{
 }
 }
 
-.MuiPickersCalendarHeader-label {
+/* .MuiPickersCalendarHeader-label {
   color: var(--textOnBright);
   font-weight: 700;
   font-size: large;
@@ -198,7 +198,7 @@ p{
 
 .MuiPickersYear-root {
   color: var(--textOnBright);
-}
+} */
 
 @keyframes colorPulse {
   0% { color: white; }
@@ -231,4 +231,8 @@ p{
   margin-bottom: 15px;
   max-width: 300px;
   width: 100%;
+}
+
+.highlight {
+  background-color: red !important;
 }
