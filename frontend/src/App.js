@@ -20,7 +20,7 @@ import Post from "./pages/post";
 
 import Navbar from "./components/navbar";
 import { ToastContainer } from "react-toastify";
-import showNotifications from "./components/showNotifications/showNotifications";
+import showNotifications from "./components/showNotifications/showNotificationsToastify";
 
 // costum hooks
 import useMongoDBUserData from "./costumHooks/useMongoDBUserData";

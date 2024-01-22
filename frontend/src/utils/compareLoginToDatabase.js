@@ -1,5 +1,5 @@
 import axios from "axios";
-import showNotifications from "../components/showNotifications/showNotifications";
+import showNotifications from "../components/showNotifications/showNotificationsToastify";
 
 export async function compareLoginToDatabase(data){
     try{

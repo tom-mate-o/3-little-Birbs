@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { TbDoorExit } from "react-icons/tb";
 import {jwtDecode} from 'jwt-decode';
-import showNotifications from "../components/showNotifications/showNotifications";
+import showNotifications from "../components/showNotifications/showNotificationsToastify";
 import updateUserInDatabase from "../utils/updateUserInDatabase";
 
 //Styled Components

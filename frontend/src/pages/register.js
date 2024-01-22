@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import uuid4 from "uuid4";
 import ShortUniqueId from 'short-unique-id';
-import showNotifications from "../components/showNotifications/showNotifications";
+import showNotifications from "../components/showNotifications/showNotificationsToastify";
 import registerUserToDatabase from "../utils/registerUserToDatabase";
 
 //Styled Components

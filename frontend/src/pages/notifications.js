@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import showNotifications from "../components/showNotifications/showNotifications";
+import showNotifications from "../components/showNotifications/showNotificationsToastify";
 import { jwtDecode } from "jwt-decode";
 import { DateTime } from "luxon";
 

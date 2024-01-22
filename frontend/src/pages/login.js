@@ -12,7 +12,7 @@ import { birbImages } from "../assets/birbs/birbsimgs";
 import { Boxtitle } from "../styledComponents/boxtitle";
 import { InputField } from "../styledComponents/inputField";
 import { SubmitButton } from "../styledComponents/submitButton";
-import showNotifications from "../components/showNotifications/showNotifications";
+import showNotifications from "../components/showNotifications/showNotificationsToastify";
 
 export default function Login({handleLogin, loggedIn}) { //muss in {} sein, da sonst nicht erkannt wird, dass loggedIn true ist
   useEffect(() => {

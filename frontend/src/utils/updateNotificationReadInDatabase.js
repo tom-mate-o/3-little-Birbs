@@ -1,7 +1,7 @@
 //updateNotificationReadInDatabase.js
 
 import axios from "axios";
-import showNotifications from "../components/showNotifications/showNotifications";
+import showNotifications from "../components/showNotifications/showNotificationsToastify";
 
 export default async function updateNotificationReadInDatabase(dataToUpdate) {
     try{
