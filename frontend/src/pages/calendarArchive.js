@@ -76,6 +76,7 @@ export default function CalendarArchive() {
 
       <MainContainer>
       <Calendar onChange={handleDateChange}
+      locale="en-UK"
   tileClassName={({ date, view }) => {
     if (view === 'month') {
       const highlight = highlightedDays.find(dDate => {

@@ -186,19 +186,7 @@ p{
 }
 }
 
-/* .MuiPickersCalendarHeader-label {
-  color: var(--textOnBright);
-  font-weight: 700;
-  font-size: large;
-}
 
-.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPickersDay-today {
-  border: 2px solid var(--mainContainer);
-}
-
-.MuiPickersYear-root {
-  color: var(--textOnBright);
-} */
 
 @keyframes colorPulse {
   0% { color: white; }
@@ -233,6 +221,6 @@ p{
   width: 100%;
 }
 
-.highlight {
-  background-color: red !important;
+.toast-position {
+  bottom: 8rem !important;
 }

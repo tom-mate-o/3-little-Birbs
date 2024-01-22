@@ -145,7 +145,7 @@ function App() {
             <Route path="/login" element={<Login loggedIn={loggedIn} handleLogin={handleLogin}/>}  />
             <Route path="/register" element={<Register />} />
           </Routes>
-          <ToastContainer />
+          <ToastContainer/>
         </div>
 
 {/* -------NAVBAR------- */}

@@ -1,62 +1,79 @@
-.react-calendar {
+.react-calendar { 
     width: 100%;
     max-width: 600px;
+    min-width: 200px;
     font-family: 'Inria Serif', serif;
-    line-height: 2em;
-  }
-  
-  .react-calendar__month-view__days__day--weekend {
-    color: #d10000;
-  }
-  
-  .react-calendar__month-view__days__day--neighboringMonth {
-    color: #a0a096;
-  }
-  
-  .react-calendar__navigation {
-    height: 44px;
-    margin-bottom: 1em;
-  }
-  
-  .react-calendar__navigation button {
-    min-width: 44px;
-    background: none;
-    border: none;
-  }
-  
-  .react-calendar__navigation button:enabled:hover,
-  .react-calendar__navigation button:enabled:focus {
-    background-color: #e6e6e6;
-  }
-  
-  .react-calendar__navigation__label {
-    flex-grow: 1;
-    padding: 0.5em;
+    font-size: 1rem;
+
+    margin-top: 15px;
+   }
+
+   .react-calendar__navigation{
     text-align: center;
-  }
+   }
+   .react-calendar__navigation button {
+    color: var(--textOnDark);
+    font-family: 'Inria Serif', serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-width: 44px;
+    width: auto;
+    background: none;
+border: none;
+    margin-top: 8px;
+    margin-bottom: 30px;
+   }
+
+   .react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+
+
+.react-calendar__month-view__days__day{
+    margin-bottom: 5px;
+}
+
+
+ 
+   abbr[title] {
+    text-decoration: none;
+   }
+
+   .react-calendar__month-view__weekdays{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: var(--infoContainer);
+    margin-bottom: 10px;
+   }
+
+   .react-calendar__tile{
+    width: auto;
+    height: 3rem;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--mainContainer);
+    color: var(--textOnDark);
+    font-size: 1rem;
+   }
+
+
+   .react-calendar__tile--now {
+    border-radius: 10px;
+    font-weight: bold;
+    border: 2px solid var(--textOnDark);
+   }
+
   
-  .react-calendar__navigation__label--hasPrevButton--hasNextButton {
-    padding: 0.5em;
+
+   
+
+   .highlight {
+    background-color: var(--button);
+    color: var(--textOnButton)
   }
-  
-  .react-calendar__navigation__prev-button,
-  .react-calendar__navigation__next-button {
-    padding: 0.5em;
-  }
-  
-  .react-calendar__navigation__prev-button svg,
-  .react-calendar__navigation__next-button svg {
-    display: block;
-    fill: #000;
-  }
-  
-  .react-calendar__navigation__prev2-button,
-  .react-calendar__navigation__next2-button {
-    padding: 0.5em;
-  }
-  
-  .react-calendar__navigation__prev2-button svg,
-  .react-calendar__navigation__next2-button svg {
-    display: block;
-    fill: #000;
+
+  .highlight:hover {
+    background-color: var(--hoverButton);
   }
