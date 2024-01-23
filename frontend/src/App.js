@@ -3,6 +3,7 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import {jwtDecode} from 'jwt-decode';
+import {loadTheme} from './loadTheme';
 
 import Feed from "./pages/feed";
 import NewPost from "./pages/newPost";
@@ -34,6 +35,7 @@ function App() {
   const [isBellRed, setIsBellRed] = useState(false);
   const [currentUserData, setCurrentUserData] = useState(null)// Benötigt für die Benachrichtigungen
   const [iconClicked, setIconClicked] = useState(false);
+  const [theme, setTheme] = useState("sunriseSunset-theme");
 
   const token = localStorage.getItem("token");
   let UserID;
@@ -44,6 +46,8 @@ function App() {
   }
 
   const {userData, refetch} = useMongoDBUserData();
+
+
 
   useEffect(() => {
     refetch();
@@ -63,6 +67,12 @@ function App() {
           setIsBellRed(hasUnreadNotifications);
         } else {
           setIsBellRed(false);
+        }
+
+        if (currentUserData.userSettings && currentUserData.userSettings[0].theme) {
+          setTheme(currentUserData.userSettings[0].theme);
+          loadTheme(theme)
+          console.log("Theme DB loaded:", theme);
         }
       
         // Überprüfen die recievedPostsIds, wenn sie existieren
@@ -90,17 +100,20 @@ function App() {
     }
   }, [userData, loggedIn, UserID, iconClicked]); // Abhängigkeit
 
+
   const handleLogout = () => {
     setNotifications([]);
     setLoggedIn(false);
     setIsBellRed(false);
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("theme");
     showNotifications("Bye, for now! 👋", "");
   };
 
   const handleLogin = () => {
     setLoggedIn(true);
+    window.location.reload();
   };
 
   useEffect(() => {

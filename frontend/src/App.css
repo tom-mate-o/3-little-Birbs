@@ -224,3 +224,7 @@ p{
 .toast-position {
   bottom: 8rem !important;
 }
+
+a{
+  text-decoration: none;
+}

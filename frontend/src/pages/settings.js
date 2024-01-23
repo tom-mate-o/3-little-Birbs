@@ -84,7 +84,7 @@ export default function Settings({handleLogout}) {
     <div>
       <Title>Personal Settings</Title>
 
-      <WideButton onClick={handleClickLogoutButton}><span>Logout <TbDoorExit /></span></WideButton>
+      <NavLink to="/"><WideButton onClick={handleClickLogoutButton}><span>Logout <TbDoorExit /></span></WideButton></NavLink>
      
 
 
@@ -134,7 +134,8 @@ export default function Settings({handleLogout}) {
 
         <SubTitle>Theme</SubTitle>
         <MainContainer>
-            <Boxtitle>select a different Theme</Boxtitle>
+            <Boxtitle>select a different Theme<br/>
+            (Changes will be visible after a new login)</Boxtitle>
             <Select 
   labelId="select-label"
   className="select"
@@ -168,13 +169,13 @@ export default function Settings({handleLogout}) {
 </Select>
         </MainContainer>
 
-        {/* <SubTitle>Time - Notification</SubTitle>
+        <SubTitle>Time - Notification</SubTitle>
         <MainContainer>
             <Boxtitle>select a time for your 3LB-Notification</Boxtitle>
             <InputField>
                 <input type="time" ref={notificationTime}></input>
              </InputField>
-        </MainContainer> */}
+        </MainContainer>
 
         <WideButton onClick={saveSettings}>Save the Settings</WideButton>
 

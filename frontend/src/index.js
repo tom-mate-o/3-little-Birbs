@@ -3,8 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import axios from 'axios';
+import {loadTheme} from './loadTheme';
+
 
 const loadBackendResponse = async () => {
+
+
+
   try{
     const response = await axios.get('http://localhost:8080/health-check');
     console.log("✅ Backend and frontend are connected!");
@@ -13,10 +18,10 @@ const loadBackendResponse = async () => {
   }
 };
 
-loadBackendResponse();
 
-// Set default theme
-document.documentElement.setAttribute('class', 'dracula-theme');
+loadBackendResponse();
+loadTheme();
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
