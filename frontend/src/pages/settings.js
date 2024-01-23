@@ -168,13 +168,13 @@ export default function Settings({handleLogout}) {
 </Select>
         </MainContainer>
 
-        <SubTitle>Time - Notification</SubTitle>
+        {/* <SubTitle>Time - Notification</SubTitle>
         <MainContainer>
             <Boxtitle>select a time for your 3LB-Notification</Boxtitle>
             <InputField>
                 <input type="time" ref={notificationTime}></input>
              </InputField>
-        </MainContainer>
+        </MainContainer> */}
 
         <WideButton onClick={saveSettings}>Save the Settings</WideButton>
 

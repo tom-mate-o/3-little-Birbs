@@ -16,7 +16,7 @@ const loadBackendResponse = async () => {
 loadBackendResponse();
 
 // Set default theme
-document.documentElement.setAttribute('class', 'sunriseSunset-theme');
+document.documentElement.setAttribute('class', 'dracula-theme');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
