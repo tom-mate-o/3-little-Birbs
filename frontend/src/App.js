@@ -72,7 +72,6 @@ function App() {
         if (currentUserData.userSettings && currentUserData.userSettings[0].theme) {
           setTheme(currentUserData.userSettings[0].theme);
           loadTheme(theme)
-          console.log("Theme DB loaded:", theme);
         }
       
         // Überprüfen die recievedPostsIds, wenn sie existieren
