@@ -173,7 +173,8 @@ export default function Settings({handleLogout}) {
         <MainContainer>
             <Boxtitle>select a time for your 3LB-Notification</Boxtitle>
             <InputField>
-                <input type="time" ref={notificationTime}></input>
+                <input type="time" ref={notificationTime} disabled={true}></input>
+                <Boxtitle>coming soon</Boxtitle>
              </InputField>
         </MainContainer>
 
