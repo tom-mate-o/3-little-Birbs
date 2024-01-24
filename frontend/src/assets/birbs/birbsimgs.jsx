@@ -25,6 +25,7 @@ import noavatar from "./noavatar.png";
 import logo from "./logo.png";
 import pecking_animation from "./pecking_animation.gif";
 import nomessages from "./nomessages_jpg.jpg";
+import pigeon404 from "./pigeon404.jpeg";
 
 export const birbImages = {
     bigBirb01,
@@ -54,5 +55,5 @@ export const birbImages = {
     logo,
     pecking_animation,
     nomessages,
-    
+    pigeon404,
 };

@@ -19,6 +19,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Post from "./pages/post";
 import ResetPassword from "./pages/resetpassword";
+import NotFoundPage from "./pages/notFoundPage";
 
 import Navbar from "./components/navbar";
 import { ToastContainer } from "react-toastify";
@@ -26,7 +27,6 @@ import showNotifications from "./components/showNotifications/showNotificationsT
 
 // costum hooks
 import useMongoDBUserData from "./costumHooks/useMongoDBUserData";
-import { set } from "date-fns";
 
 
 function App() {
@@ -158,6 +158,7 @@ function App() {
             <Route path="/login" element={<Login loggedIn={loggedIn} handleLogin={handleLogin}/>}  />
             <Route path="/register" element={<Register />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <ToastContainer/>
         </div>
