@@ -89,9 +89,13 @@ app.use("/api/deleteFriends", deleteFriendsRoute);
 const getMessagesCountRoute = require("./routes/getMessagesCountRoute"); // Pfad zur Get-Route
 app.use("/api/getMessagesCount", getMessagesCountRoute);
 
-// POST Route für den Reset Password Prozess
+// POST Route für den Reset Password Prozess (Email + Code)
 const resetPasswordRoute = require("./routes/resetPasswordRoute"); // Pfad zur Post-Route
-app.use("/api/auth/resetpassword", resetPasswordRoute);
+app.use("/api/auth/reset/newpassword", resetPasswordRoute);
+
+// PUT Route für den Reset Password Prozess (New Password)
+const newPasswordRoute = require("./routes/newPasswordRoute"); // Pfad zur PUT-Route
+app.use("/api/auth/reset/setnewpassword", newPasswordRoute);
 
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`);

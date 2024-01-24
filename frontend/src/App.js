@@ -18,6 +18,7 @@ import Settings from "./pages/settings";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Post from "./pages/post";
+import ResetPassword from "./pages/resetpassword";
 
 import Navbar from "./components/navbar";
 import { ToastContainer } from "react-toastify";
@@ -156,6 +157,7 @@ function App() {
             <Route path="/post/:postId" element={loggedIn ? <Post handleLogout={handleLogout}/> : <Login handleLogin={handleLogin} loggedIn={loggedIn} replace/>}/>
             <Route path="/login" element={<Login loggedIn={loggedIn} handleLogin={handleLogin}/>}  />
             <Route path="/register" element={<Register />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
           </Routes>
           <ToastContainer/>
         </div>

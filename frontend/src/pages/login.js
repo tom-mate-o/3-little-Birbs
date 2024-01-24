@@ -82,7 +82,13 @@ export default function Login({handleLogin, loggedIn}) { //muss in {} sein, da s
 
       <div className="introtext">
       <Boxtitle>Don't Have an Account yet?<br/><NavLink to="/register">Click here to sign up!</NavLink></Boxtitle>
+      
+      <Boxtitle>Forgot your Password?<br/><NavLink to="/resetpassword">Click here to get a new one!</NavLink></Boxtitle>
       </div>
+
+ 
+     
+
     </div>
   );
 }

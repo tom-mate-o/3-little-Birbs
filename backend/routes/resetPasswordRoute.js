@@ -8,21 +8,21 @@ const jwt = require("jsonwebtoken");
 router.post("/", async (req, res) => {
   try {
     const { email } = req.body;
-    console.log(email);
+    
 
     if (!email) {
       return res.status(401).send({ message: "Email field is missing!" });
     }
     try {
       const userExists = await User.findOne({ email: email });
-      console.log("User exists: ", userExists.username);
+      
       if (!userExists) {
         console.log("No user found with the provided email");
         return res.status(404).send({ message: "No User with this E-Mail" });
       }
 
       const code = Math.floor(100000 + Math.random() * 900000);
-      console.log(code);
+      
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
