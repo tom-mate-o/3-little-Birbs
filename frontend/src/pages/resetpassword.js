@@ -47,7 +47,7 @@ export default function ResetPassword({handleLogin, loggedIn}) { //muss in {} se
 
     //config object für den post request
     const config = {
-      url: "http://localhost:8080/api/auth/reset/newpassword",
+      url: `${process.env.REACT_APP_BACKEND_URL}/api/auth/reset/newpassword`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const onClickCode = async (event) => {
     }
 
     const config = {
-      url: "http://localhost:8080/api/auth/reset/setnewpassword",
+      url: `${process.env.REACT_APP_BACKEND_URL}/api/auth/reset/setnewpassword`,
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

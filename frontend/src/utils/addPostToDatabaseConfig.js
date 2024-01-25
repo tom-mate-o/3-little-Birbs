@@ -6,7 +6,7 @@ export async function addPostToDatabaseConfig(newPost) {
 
         const config = {
             method: 'post',
-            url: 'http://localhost:8080/api/post',
+            url: `${process.env.REACT_APP_BACKEND_URL}/api/post`,
             headers: {
                 'Content-Type': 'application/json'
             },

@@ -6,7 +6,7 @@ export async function getPostFromUserIDFromDatabaseConfig(userId) {
   try {
     const config = {
         method: "POST",
-        url: "http://localhost:8080/api/getPostsFromUserId",
+        url: `${process.env.REACT_APP_BACKEND_URL}/api/getPostsFromUserId`,
         headers: {
             "Content-Type": "application/json",
         },

@@ -9,7 +9,7 @@ export default async function updateUserInDatabase(dataToUpdate) {
      
         const config = {
             method: "PUT",
-            url: "http://localhost:8080/api/updateUser",
+            url: `${process.env.REACT_APP_BACKEND_URL}/api/updateUser`,
             headers: {
                 "Content-Type": "multipart/form-data",
             },

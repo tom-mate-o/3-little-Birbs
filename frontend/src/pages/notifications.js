@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import showNotifications from "../components/showNotifications/showNotificationsToastify";
 import { jwtDecode } from "jwt-decode";
 import { DateTime } from "luxon";
 
@@ -14,7 +12,6 @@ import { HiOutlineXCircle } from "react-icons/hi";
 import useMongoDBUserData from "../costumHooks/useMongoDBUserData";
 import { getPostsWithMachtingIDFromDatabaseConfig } from "../utils/getPostsWithMachtingIDFromDatabaseConfig";
 import updateNotificationReadInDatabase from "../utils/updateNotificationReadInDatabase";
-import { set } from "date-fns";
 
 export default function Notifications(props) {
   const {
@@ -31,8 +28,6 @@ export default function Notifications(props) {
 
   const { userData, refetch } = useMongoDBUserData();
   const [posts, setPosts] = useState([]);
- 
-  
 
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
@@ -53,27 +48,33 @@ export default function Notifications(props) {
     if (notifications && notifications.length > 0) {
       fetchPostNotifications();
     }
-
   }, [notifications]);
-
 
   function handleDeleteFriendCodeNotification(friendcode) {
     updateNotificationReadInDatabase({
       userId: UserID,
       friendcode: friendcode,
     }).then(() => {
-      setNotifications((currentNotifications) => currentNotifications.filter((notification) => notification.friendcode !== friendcode));
+      setNotifications((currentNotifications) =>
+        currentNotifications.filter(
+          (notification) => notification.friendcode !== friendcode
+        )
+      );
       refetch();
     });
   }
-  
+
   function handleDeletePosterIDNotification(postId) {
     updateNotificationReadInDatabase({
       userId: UserID,
       postId: postId,
     }).then(() => {
-      setNotifications((currentNotifications) => currentNotifications.filter((notification) => notification.id !== postId));
-     refetch();
+      setNotifications((currentNotifications) =>
+        currentNotifications.filter(
+          (notification) => notification.id !== postId
+        )
+      );
+      refetch();
     });
   }
 
@@ -81,13 +82,11 @@ export default function Notifications(props) {
     // Wenn es Benachrichtigungen gibt, setzen Sie isBellRed auf true
     if (notifications.length > 0) {
       handleBellColorChange(true);
-      
     } else {
       // Wenn es keine Benachrichtigungen gibt, setzen Sie isBellRed auf false
       handleBellColorChange(false);
     }
   }, [notifications, handleBellColorChange]);
-
 
   return (
     <div>
@@ -110,12 +109,21 @@ export default function Notifications(props) {
                     src={
                       user
                         ? user.avatarUrl
+                          ? user.avatarUrl
+                          : birbImages.noavatar
                         : post
                         ? userData.find((u) => u.id === post.posterID)
                             ?.avatarUrl
-                        : ""
+                          ? userData.find((u) => u.id === post.posterID)
+                              ?.avatarUrl
+                          : birbImages.noavatar
+                        : birbImages.noavatar
                     }
                     alt={user ? user.username : post ? post.poster : ""}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = birbImages.noavatar;
+                    }}
                   />
                 </div>
                 <div className="time">

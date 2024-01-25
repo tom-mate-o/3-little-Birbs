@@ -6,7 +6,7 @@ export async function deleteFriendcodeFromDatabaseConfig(userId, friendcodeToDel
 
         const config = {
             method: 'put',
-            url: 'http://localhost:8080/api/deleteFriends',
+            url: `${process.env.REACT_APP_BACKEND_URL}/api/deleteFriends`,
             headers: {
                 'Content-Type': 'application/json'
             },

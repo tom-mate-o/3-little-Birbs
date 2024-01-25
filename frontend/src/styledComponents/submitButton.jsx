@@ -11,6 +11,7 @@ export const SubmitButton = styled.div`
         flex-direction: column;
         gap: 10px;	
         justify-content: center;
+        align-items: center;
         width: auto;
         color: var(--textOnButton);
         text-align: center;
@@ -23,7 +24,7 @@ export const SubmitButton = styled.div`
             background-color: var(--hoverButton);
             cursor: pointer;
         }
-    
+
     }
     
 `;

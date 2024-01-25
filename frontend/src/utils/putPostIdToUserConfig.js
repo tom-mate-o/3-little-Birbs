@@ -6,7 +6,7 @@ export async function putPostIdToUserConfig(id, selectedFriendName) {
 
         const config = {
             method: 'put',
-            url: 'http://localhost:8080/api/putPostIdToUser',
+            url: `${process.env.REACT_APP_BACKEND_URL}/api/putPostIdToUser`,
             headers: {
                 'Content-Type': 'application/json'
             },

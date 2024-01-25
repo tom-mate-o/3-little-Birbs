@@ -12,7 +12,7 @@ export async function putFriendcodeToDatabaseConfig(friendCode, userId, friendCo
           
           const config = {
             method: 'put',
-            url: 'http://localhost:8080/api/putFriends',
+            url: `${process.env.REACT_APP_BACKEND_URL}/api/putFriends`,
             headers: {
               'Content-Type': 'application/json'
             },

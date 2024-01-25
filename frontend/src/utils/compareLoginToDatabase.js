@@ -6,7 +6,7 @@ export async function compareLoginToDatabase(data){
         
         const config = {
             method: "POST",
-            url: "http://localhost:8080/api/login",
+            url: `${process.env.REACT_APP_BACKEND_URL}/api/login`,
             headers: {
                 "Content-Type": "application/json",
             },

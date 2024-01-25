@@ -6,7 +6,7 @@ export async function getUserDataFromDatabase(setCallBackFunction) {
     try{
         const config = {
             method: "GET",
-            url: "http://localhost:8080/api/getuserdata",
+            url: `${process.env.REACT_APP_BACKEND_URL}/api/getuserdata`,
             headers: {
                 "Content-Type": "multipart/form-data",
         }

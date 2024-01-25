@@ -19,7 +19,10 @@ export const NotificationGrid = styled.div`
     
 
     img{
+        width: 50px;
         height: 50px;
+        object-fit: cover;
+        object-position: center;
         border-radius: 10px;
    
     }

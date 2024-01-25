@@ -5,7 +5,7 @@ export default async function registerUserToDatabase(formData) {
     try{
         const config = {
             method: "POST",
-            url: "http://localhost:8080/api/register",
+            url: `${process.env.REACT_APP_BACKEND_URL}/api/register`,
             headers: {
                 "Content-Type": "multipart/form-data",
             },

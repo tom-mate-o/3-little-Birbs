@@ -64,6 +64,7 @@ body{
 }
 
 
+
 .navbar {
   right: 0;
   background-color: var(--navbar);
@@ -72,11 +73,6 @@ body{
  bottom: 0;
  width: 100%;
 font-size: 20px;
-
-
-  a:visited{
-    color: var(--navBarIcons);
-  }
 }
 
 .navbar ul {
@@ -93,10 +89,14 @@ font-size: 20px;
 
 .navbar li a {
   display: block;
-  color: white;
+  color: var(--navBarIcons);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+}
+
+.navbar li a:visited{
+  color: var(--navBarIcons);
 }
 
 .navbar li a:hover {

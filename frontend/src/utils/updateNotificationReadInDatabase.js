@@ -9,7 +9,7 @@ export default async function updateNotificationReadInDatabase(dataToUpdate) {
      
         const config = {
             method: "PUT",
-            url: "http://localhost:8080/api/updateReadNotification",
+            url: `${process.env.REACT_APP_BACKEND_URL}/api/updateReadNotification`,
             headers: {
                 "Content-Type": "application/json",
             },

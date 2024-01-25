@@ -32,7 +32,7 @@ export default function Post() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/getPostWithId/${postId}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/getPostWithId/${postId}`);
         console.log(response.data)
         console.log(response);
         setPost(response.data);

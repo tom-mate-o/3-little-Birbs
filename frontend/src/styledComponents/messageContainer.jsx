@@ -46,13 +46,14 @@ export const MessageContainer = styled.div`
     .birbsInARow{
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
+        width: 100%;
 
         img{
             width: 100%;
             height: auto;
-            max-width: 107px;
+            max-width: 15vw;
         }
     }
 

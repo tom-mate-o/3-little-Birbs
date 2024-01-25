@@ -6,7 +6,7 @@ export async function getPostsWithMachtingIDFromDatabaseConfig(messages) {
   try {
     const config = {
         method: "POST",
-        url: "http://localhost:8080/api/getMatchingPostsMessages",
+        url: `${process.env.REACT_APP_BACKEND_URL}/api/getMatchingPostsMessages`,
         headers: {
             "Content-Type": "application/json",
         },

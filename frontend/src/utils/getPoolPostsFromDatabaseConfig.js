@@ -6,7 +6,7 @@ export async function getPoolPostsFromDatabaseConfig(setCallbackFunction) {
   try {
     const config = {
         method: "get",
-        url: "http://localhost:8080/api/getPool",
+        url: `${process.env.REACT_APP_BACKEND_URL}/api/getPool`,
         headers: {
             "Content-Type": "application/json",
         },
